@@ -2,6 +2,8 @@ import javafx.application.Application;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.Scene;
 import javafx.scene.text.*;
 import javafx.geometry.Pos;
@@ -85,6 +87,52 @@ public class GUIDriver extends Application{
 
         Scene scene = new Scene(layout, 500, 500);
         hand1.displayHand();
+        
+        Hand hand1 = new Hand();
+        VBox root=new VBox(10);
+        root.setPadding(new Insets(15));
+
+        Pane handPane = new Pane();
+        handPane.setPrefSize(600,200);
+
+        deck.shuffleDeck();
+
+        if (Math.random() <= 0.5) {
+            deck.deal(25, hand1);
+            deck.deal(26, hand2);
+        }
+        else {
+            deck.deal(26, hand1);
+            deck.deal(25, hand2);
+        }
+
+        hand1.removeDoubles();
+
+        int handsize = hand1.getSize();
+
+        double cardWidth= 80;
+        double cardHeight=120;
+        double overlap= 50;
+
+        double startX= 30;
+        double startY=30;
+        for(int i=0;i<hand1.getSize();i++){
+            Card card= hand1.getCard(i);
+
+            Pane cardNode= createCardNode(card, cardWidth, cardHeight);
+
+            cardNode.setLayoutX(startX + i * overlap);
+            cardNode.setLayoutY(startY);
+
+            handPane.getChildren().add(cardNode);
+
+        }
+
+        root.getChildren().add(handPane);
+
+        Scene scene=new Scene(root,500,600);
+        stage.setScene(scene);
+        stage.show();
 
         while (opponentTurnStatus) {
                 opponentTurn(stage);
@@ -121,6 +169,33 @@ public class GUIDriver extends Application{
         btnQuitGame.setOnAction(e -> System.exit(0));
         return scene;
     }
+    
+    private Pane createCardNode(Card card, double width, double height){
+
+        Pane container = new Pane();
+
+        Rectangle rect= new Rectangle(width,height);
+        rect.setArcWidth(10);
+        rect.setArcHeight(10);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+
+        Text txt= new Text(card.toString());
+        txt.setFont(Font.font("Arial", 18));
+        txt.setX(10);
+        txt.setY(25);
+
+        String suit= card.getSuit().trim();
+         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
+        if (suit.contains("♥") || suit.contains("♦")) {
+            txt.setFill(Color.RED);
+        } else {
+            txt.setFill(Color.BLACK);
+        }
+        container.getChildren().addAll(rect, txt);
+        return container;
+
+    }  
 
     public static void endScenePlayerWin (Stage stage) {
         Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");

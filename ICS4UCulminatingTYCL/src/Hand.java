@@ -72,6 +72,9 @@ public class Hand {
     private Card removeCard(int index) {
         return cards.remove(index);
     }
+    public Card getCard(int index){
+        return cards.get(index);
+    }
 
     /**
     * Draws a card from another hand and adds it to this one

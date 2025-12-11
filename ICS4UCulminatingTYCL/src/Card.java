@@ -33,4 +33,8 @@ public class Card {
     public String toString () {
         return suit + value;
     }
+    
+    public String getSuit(){
+        return suit; 
+    }
 }
