@@ -1,13 +1,23 @@
 import javafx.application.Application;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
-import javafx.scene.layout.*;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.Scene;
-import javafx.scene.text.*;
-import javafx.geometry.Pos;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import java.util.Arrays; 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Collections;
 
 public class GUIDriver extends Application{
         private static Scanner input = new Scanner(System.in);
@@ -67,7 +77,8 @@ public class GUIDriver extends Application{
 
 
     public Scene gameScene (Stage stage){
-        gameSetup();
+    	
+//        gameSetup();
         Label optionsMenu = new Label ("~~~Options Menu~~~");
         Label errorMessage = new Label ("");
         Button btnDrawOpponent = new Button ("Draw from opponent");
@@ -86,11 +97,9 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.BOTTOM_RIGHT);
 
         Scene scene = new Scene(layout, 500, 500);
-        hand1.displayHand();
         
         Hand hand1 = new Hand();
-        VBox root=new VBox(10);
-        root.setPadding(new Insets(15));
+        layout.setPadding(new Insets(15));
 
         Pane handPane = new Pane();
         handPane.setPrefSize(600,200);
@@ -128,11 +137,8 @@ public class GUIDriver extends Application{
 
         }
 
-        root.getChildren().add(handPane);
+        layout.getChildren().add(handPane);
 
-        Scene scene=new Scene(root,500,600);
-        stage.setScene(scene);
-        stage.show();
 
         while (opponentTurnStatus) {
                 opponentTurn(stage);
