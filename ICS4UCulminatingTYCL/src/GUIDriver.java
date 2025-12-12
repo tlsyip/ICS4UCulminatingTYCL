@@ -33,13 +33,22 @@ public class GUIDriver extends Application{
         private final double CARD_HEIGHT = 120;
         private final double CARD_OVERLAP = 50;
 
-    public void start (Stage stage) throws Exception {
+    public void start (Stage stage) throws Exception {     
+        // create fonts
+        Font TimesNewRomanFont = Font.font("Times New Roman", 50);
+        Font VerdanaFont = Font.font("Verdana", 15);
+        
         Label title = new Label ("~~~~Old Maid~~~~");
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
   
         btnGameStart.setPrefSize(155, 20); 
         btnInstructions.setPrefSize(155, 20); 
+
+        // set text to font
+        title.setFont(TimesNewRomanFont);
+        btnGameStart.setFont(VerdanaFont);
+        btnInstructions.setFont(VerdanaFont);
 
         HBox buttonHolder = new HBox(20);
         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
@@ -63,9 +72,18 @@ public class GUIDriver extends Application{
 
     
     public Scene instructionsScene (Stage stage){
+        // create fonts
+        Font TimesNewRomanFont = Font.font("Times New Roman", 50);
+        Font VerdanaFont = Font.font("Verdana", 12);
+        
         Label title = new Label ("~~~~Instructions~~~~");
         Label instructions = new Label ("The first player draws one card from their opponent and discards any\nresulting pair. That player then offers their hand to the next player.\nPlay continues this way until only one unpaired card remains and \nwhoever holds it is the Old Maid. Have fun!");
         Button btnGameStart = new Button ("Start Game");
+        
+        //set text to fonts
+        title.setFont(TimesNewRomanFont);
+        instructions.setFont(VerdanaFont);
+        btnGameStart.setFont(VerdanaFont);
         
         // Create a layout object
         VBox layout = new VBox(10);
@@ -81,14 +99,22 @@ public class GUIDriver extends Application{
 
 
     public Scene gameScene (Stage stage){
+    	// create font
+        Font VerdanaFont = Font.font("Verdana", 12);
     	
-//        gameSetup();
         Label optionsMenu = new Label ("~~~Options Menu~~~");
         Label errorMessage = new Label ("");
         Button btnDrawOpponent = new Button ("Draw from opponent");
         Button btnRemoveDoubles = new Button ("Remove doubles");
         Button btnEndTurn = new Button ("End turn");
         Button btnQuitGame = new Button ("Quit game");
+        
+        optionsMenu.setFont(VerdanaFont);
+        errorMessage.setFont(VerdanaFont);
+        btnDrawOpponent.setFont(VerdanaFont);
+        btnRemoveDoubles.setFont(VerdanaFont);
+        btnEndTurn.setFont(VerdanaFont);
+        btnQuitGame.setFont(VerdanaFont);
   
         btnDrawOpponent.setPrefSize(155, 20); 
         btnRemoveDoubles.setPrefSize(155, 20); 
@@ -118,19 +144,28 @@ public class GUIDriver extends Application{
             deck.deal(26, hand1);
             deck.deal(25, hand2);
         }
+        try {
+            Card oldMaidCard = deck.drawDeck();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
         hand1.removeDoubles();
-        renderHand();
+        hand2.removeDoubles();
+        renderHand(hand1);
         layout.getChildren().add(handPane);
         
         
         btnDrawOpponent.setOnAction(e -> {
             if (!alreadyDrawn) {
+            	checkGameOver(stage);
                 errorMessage.setText("");
                 hand1.drawOpponent(hand2);
                 alreadyDrawn = true;
                 hand1.displayHand();
-                renderHand();
+                hand2.displayHand();
+                renderHand(hand1);
             } 
             else {
                 errorMessage.setText("You already picked from your opponent.");
@@ -142,7 +177,7 @@ public class GUIDriver extends Application{
                 hand1.removeDoubles();
                 doublesRemoved = true;
                 hand1.displayHand();
-                renderHand();
+                renderHand(hand1);
             }
             else {
                 errorMessage.setText("All your doubles are removed.");
@@ -153,7 +188,7 @@ public class GUIDriver extends Application{
             playerTurnStatus = false;
             opponentTurnStatus = true;
             opponentTurn(stage);
-            renderHand();
+            renderHand(hand1);
         });
         btnQuitGame.setOnAction(e -> System.exit(0));
         return scene;
@@ -175,7 +210,7 @@ public class GUIDriver extends Application{
         txt.setY(25);
 
         String suit= card.getSuit().trim();
-         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
+//        System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
         if (suit.contains("♥") || suit.contains("♦")) {
             txt.setFill(Color.RED);
         } else {
@@ -197,14 +232,14 @@ public class GUIDriver extends Application{
         stage.show();
     }
     
-    private void renderHand(){
+    private void renderHand(Hand hand){
         handPane.getChildren().clear();
 
         double startX= 30;
         double startY=30;
 
-        for(int i=0;i<hand1.getSize(); i++){
-            Card card= hand1.getCard(i);
+        for(int i=0;i<hand.getSize(); i++){
+            Card card= hand.getCard(i);
 
             Pane cardNode = createCardNode(card, CARD_WIDTH,CARD_HEIGHT);
             cardNode.setLayoutX(startX +i*CARD_OVERLAP);
@@ -225,32 +260,6 @@ public class GUIDriver extends Application{
         stage.show();
     }
 
-    public static void gameSetup() {
-        System.out.print("Game Setup Complete");
-        // shuffles deck before dealing it
-        deck.shuffleDeck();
-
-        // randomly chooses the Old Maid
-        if (Math.random() <= 0.5) {
-            deck.deal(25, hand1);
-            deck.deal(26, hand2);
-        }
-        else {
-            deck.deal(26, hand1);
-            deck.deal(25, hand2);
-        }
-        try {
-            Card oldMaidCard = deck.drawDeck();
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        // automatically removes doubles before game starts
-        hand1.removeDoubles();
-        hand2.removeDoubles();
-        hand1.shuffleHand();
-    }
-
     public static void opponentTurn(Stage stage) {
         hand2.drawOpponent(hand1);
         // checks if the user is out of cards
@@ -269,13 +278,13 @@ public class GUIDriver extends Application{
         int p1 = hand1.getSize();
         int p2 = hand2.getSize();
 
-        // checks if opponent has won
-        if(p1==0 && p2==1){
+        // checks if user has won
+        if(p1==0 && p2!=0){
             System.out.println("You got rid of all your cards! Your opponent is the Old Maid!");
             endScenePlayerWin(stage);
         }
-        // checks if user has won
-        else if(p1==1 && p2==0){
+        // checks if user has lost
+        else if(p1!=0 && p2==0){
             System.out.println("Your opponent got rid of all their cards. You are the Old Maid!");
             endScenePlayerLose(stage);
         }
