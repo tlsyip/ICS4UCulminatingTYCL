@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javafx.scene.image.Image;
 /**
 * Represents a standard 52-deck and provides operations for drawing
 * cards, dealing cards to a hand, shuffling, and displaying the 
@@ -13,13 +15,47 @@ public class Deck {
     */
     Deck () {
         deck = new ArrayList <Card>();
-        String[] suits = {"♠️", "♥️", "♣️", "♦️"};
-        String[] names = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-        for (String suit : suits) {
-            for (int i = 0; i<names.length; i++) {
-                deck.add(new Card(suit, names[i]));
-            }
-        }
+        
+		/*
+		 * String[] suits = {"♠️", "♥️", "♣️", "♦️"}; String[] names = {"A", "2", "3",
+		 * "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}; for (String suit : suits)
+		 * { for (int i = 0; i<names.length; i++) { deck.add(new Card(suit, names[i]));
+		 * } }
+		 */
+
+        String suit = "suit";
+		// create all 12 cards for each suit
+		for (int i = 0; i < 4; i++) {
+			
+			if (i == 0) {
+				suit = "clubs";
+			}
+			
+			if (i == 1) {
+				suit = "spades";
+			}
+			
+			if (i == 2) {
+				suit = "diamonds";
+			}
+			
+			if (i == 3) {
+				suit = "hearts";
+			}
+			
+			// create all the number cards and add their images
+			String[] names = {"ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "jack", "queen", "king"};
+			for (String name : names) {
+				
+				String img = "/images/" + name + "_of_" + suit + ".png";
+				System.out.println(img);
+				
+				Image image3 = new Image(getClass().getResourceAsStream(img));
+				Card c = new Card(suit,name, image3);
+				deck.add(c);
+			}
+		}
+		
     }
 
     /**

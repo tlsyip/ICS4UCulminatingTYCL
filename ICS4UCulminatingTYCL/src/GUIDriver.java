@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -176,12 +177,14 @@ public class GUIDriver extends Application{
 
         String suit= card.getSuit().trim();
          System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
-        if (suit.contains("♥") || suit.contains("♦")) {
+        if (suit.contains("heart") || suit.contains("diamond")) {
             txt.setFill(Color.RED);
         } else {
             txt.setFill(Color.BLACK);
         }
-        container.getChildren().addAll(rect, txt);
+      //  container.getChildren().addAll(rect, txt); previous code
+        ImageView cardImage = new ImageView(card.getImage());
+        container.getChildren().add(cardImage);
         return container;
 
     }  
