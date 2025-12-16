@@ -54,8 +54,10 @@ public class GUIDriver extends Application{
         VBox layout = new VBox(30);
         layout.getChildren().addAll(title, buttonHolder);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color:lightsteelblue");
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTSTEELBLUE);
         Scene scene1 = gameScene(stage);
         Scene scene2 = instructionsScene(stage);
 
@@ -76,8 +78,10 @@ public class GUIDriver extends Application{
         VBox layout = new VBox(10);
         layout.getChildren().addAll(title, instructions, btnGameStart);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color:lightsteelblue");
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTSTEELBLUE);
 
         btnGameStart.setOnAction(e -> stage.setScene(gameScene(stage)));
 
@@ -105,9 +109,11 @@ public class GUIDriver extends Application{
         layout.getChildren().addAll(optionsMenu, btnDrawOpponent, btnRemoveDoubles, btnEndTurn, btnQuitGame, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
+        layout.setStyle("-fx-background-color:lightsteelblue");
 
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTSTEELBLUE);
         
 
         handPane = new Pane();
@@ -210,7 +216,9 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane);
+        layout.setStyle("-fx-background-color:palegreen");
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.PALEGREEN);
         stage.setScene(scene);
         stage.show();
     }
@@ -224,7 +232,9 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane);
+        layout.setStyle("-fx-background-color:lightcoral");
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTCORAL);
         stage.setScene(scene);
         stage.show();
     }
