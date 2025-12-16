@@ -54,8 +54,10 @@ public class GUIDriver extends Application{
         VBox layout = new VBox(30);
         layout.getChildren().addAll(title, buttonHolder);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color:lightsteelblue");
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTSTEELBLUE);
         Scene scene1 = gameScene(stage);
         Scene scene2 = instructionsScene(stage);
 
@@ -76,8 +78,10 @@ public class GUIDriver extends Application{
         VBox layout = new VBox(10);
         layout.getChildren().addAll(title, instructions, btnGameStart);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color:lightsteelblue");
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTSTEELBLUE);
 
         btnGameStart.setOnAction(e -> stage.setScene(gameScene(stage)));
 
@@ -105,9 +109,11 @@ public class GUIDriver extends Application{
         layout.getChildren().addAll(optionsMenu, btnDrawOpponent, btnRemoveDoubles, btnEndTurn, btnQuitGame, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
+        layout.setStyle("-fx-background-color:lightsteelblue");
 
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTSTEELBLUE);
         
 
         handPane = new Pane();
@@ -172,7 +178,7 @@ public class GUIDriver extends Application{
         return scene;
     }
     
-    private static Pane createCardNode(Card card, double width, double height){
+    private static Pane createFrontCardNode(Card card, double width, double height){
 
         Pane container = new Pane();
 
@@ -200,6 +206,35 @@ public class GUIDriver extends Application{
         return container;
 
     }  
+    
+    private static Pane createBackCardNode(Card card, double width, double height){
+
+        Pane container = new Pane();
+
+        Rectangle rect= new Rectangle(width,height);
+        rect.setArcWidth(10);
+        rect.setArcHeight(10);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+
+        Text txt= new Text(card.toString());
+        txt.setFont(Font.font("Arial", 18));
+        txt.setX(10);
+        txt.setY(25);
+
+        String suit= card.getSuit().trim();
+         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
+        if (suit.contains("heart") || suit.contains("diamond")) {
+            txt.setFill(Color.RED);
+        } else {
+            txt.setFill(Color.BLACK);
+        }
+      //  container.getChildren().addAll(rect, txt); previous code
+        ImageView cardImage = new ImageView(card.getBackImg());
+        container.getChildren().add(cardImage);
+        return container;
+
+    }  
 
     public static void endScenePlayerWin (Stage stage) {
         Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
@@ -210,7 +245,9 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane);
+        layout.setStyle("-fx-background-color:palegreen");
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.PALEGREEN);
         stage.setScene(scene);
         stage.show();
     }
@@ -224,7 +261,9 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane);
+        layout.setStyle("-fx-background-color:lightcoral");
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTCORAL);
         stage.setScene(scene);
         stage.show();
     }
