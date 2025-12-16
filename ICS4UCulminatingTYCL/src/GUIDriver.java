@@ -40,6 +40,8 @@ public class GUIDriver extends Application{
         Label title = new Label ("~~~~Old Maid~~~~");
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
+        
+        Font font = Font.font("ARIAL", 25);
   
         btnGameStart.setPrefSize(155, 20); 
         btnInstructions.setPrefSize(155, 20); 
