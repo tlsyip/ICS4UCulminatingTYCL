@@ -28,10 +28,11 @@ public class GUIDriver extends Application{
         private static boolean doublesRemoved = false;
         private static Pane handPane;
         private static Pane finalPane;
+        private static Pane oppPane;
         private static Deck deck = new Deck();
-        private static Hand hand1 = new Hand();
-        private static Hand hand2 = new Hand();
-        private static Hand oldMaidCard = new Hand();
+        private static Hand hand1 = new Hand("hand1");
+        private static Hand hand2 = new Hand("hand2");
+        private static Hand oldMaidCard = new Hand("oldMaidCard");
         private final static double CARD_WIDTH  = 80;
         private final static double CARD_HEIGHT = 120;
         private final static double CARD_OVERLAP = 40;
@@ -117,7 +118,9 @@ public class GUIDriver extends Application{
         
 
         handPane = new Pane();
+        oppPane = new Pane();
         handPane.setPrefSize(600,200);
+        oppPane.setPrefSize(600,200);
 
         deck.shuffleDeck();
 
@@ -138,7 +141,8 @@ public class GUIDriver extends Application{
         hand1.removeDoubles();
         hand2.removeDoubles();
         renderHand(hand1, handPane);
-        layout.getChildren().add(handPane);
+        renderHand(hand2, oppPane);
+        layout.getChildren().addAll(oppPane, handPane);
         
         
         btnDrawOpponent.setOnAction(e -> {
@@ -149,6 +153,7 @@ public class GUIDriver extends Application{
                 alreadyDrawn = true;
               //  hand1.displayHand();
                 renderHand(hand1, handPane);
+                renderHand(hand2, oppPane);
             } 
             else {
                 errorMessage.setText("You already picked from your opponent.");
@@ -162,6 +167,7 @@ public class GUIDriver extends Application{
             //    hand1.displayHand();
                 checkGameOver(stage);
                 renderHand(hand1, handPane);
+                renderHand(hand2, oppPane);
             }
             else {
                 errorMessage.setText("All your doubles are removed.");
@@ -173,6 +179,7 @@ public class GUIDriver extends Application{
             opponentTurnStatus = true;
             opponentTurn(stage);
             renderHand(hand1, handPane);
+            renderHand(hand2, oppPane);
         });
         btnQuitGame.setOnAction(e -> System.exit(0));
         return scene;
@@ -274,15 +281,30 @@ public class GUIDriver extends Application{
 
         double startX = 30;
         double startY = 30;
+        double oppStartY = 0;
 
-        for(int i=0;i<hand.getSize(); i++){
-            Card card= hand.getCard(i);
-
-            Pane cardNode = createCardNode(card, CARD_WIDTH,CARD_HEIGHT);
-            cardNode.setLayoutX(startX +i*CARD_OVERLAP);
-            cardNode.setLayoutY(startY);
-            
-            pane.getChildren().add(cardNode);
+        if (hand.getName().equals("hand1")) {
+	        for(int i=0;i<hand.getSize(); i++){
+	            Card card= hand.getCard(i);
+	
+	            Pane cardNode = createFrontCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+	            cardNode.setLayoutX(startX +i*CARD_OVERLAP);
+	            cardNode.setLayoutY(startY);
+	            
+	            pane.getChildren().add(cardNode);
+	        }
+        }
+        
+        else if (hand.getName().equals("hand2")) {
+	        for(int i=0;i<hand.getSize(); i++){
+	            Card card= hand.getCard(i);
+	
+	            Pane cardNode = createBackCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+	            cardNode.setLayoutX(startX +i*CARD_OVERLAP);
+	            cardNode.setLayoutY(oppStartY);
+	            
+	            pane.getChildren().add(cardNode);
+	        }
         }
     }
 
