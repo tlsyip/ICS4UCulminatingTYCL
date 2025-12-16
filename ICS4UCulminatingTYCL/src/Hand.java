@@ -8,12 +8,14 @@ import java.util.Collections;
 public class Hand {
     // The list of cards in a player's hand
     private ArrayList<Card> cards;
+    private String name;
 
     /**
     * Construct an empty hand
     */
-    Hand() {
+    Hand(String n) {
         cards = new ArrayList<Card>();
+        name = n;
     }
 
     /**
@@ -36,6 +38,10 @@ public class Hand {
     */
     public void shuffleHand() {
         Collections.shuffle(cards);
+    }
+    
+    public String getName() {
+        return name;
     }
 
     /** 
@@ -89,6 +95,8 @@ public class Hand {
         Card stolen = h.removeCard(randomCard);
         addCard(stolen);
     }
+ 
+ 
 
 
     
