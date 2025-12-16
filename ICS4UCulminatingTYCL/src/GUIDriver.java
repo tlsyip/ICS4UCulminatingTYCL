@@ -228,7 +228,6 @@ public class GUIDriver extends Application{
     }
     
     private static void renderHand(Hand hand, Pane pane){
-    	hand.displayHand();
         pane.getChildren().clear();
 
         double startX = 30;
