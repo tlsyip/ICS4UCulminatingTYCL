@@ -15,7 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.Arrays; 
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -36,8 +35,6 @@ public class GUIDriver extends Application{
         private final static double CARD_WIDTH  = 80;
         private final static double CARD_HEIGHT = 120;
         private final static double CARD_OVERLAP = 40;
-        
-        
 
     public void start (Stage stage) throws Exception {
         Label title = new Label ("~~~~Old Maid~~~~");
@@ -55,10 +52,8 @@ public class GUIDriver extends Application{
         VBox layout = new VBox(30);
         layout.getChildren().addAll(title, buttonHolder);
         layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color:lightsteelblue");
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.LIGHTSTEELBLUE);
         Scene scene1 = gameScene(stage);
         Scene scene2 = instructionsScene(stage);
 
@@ -78,12 +73,9 @@ public class GUIDriver extends Application{
         // Create a layout object
         VBox layout = new VBox(10);
         layout.getChildren().addAll(title, instructions, btnGameStart);
-        layout.setStyle("-fx-background-color:ligthsteelblue");
-       
-        
+        layout.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.LIGHTSTEELBLUE);
 
         btnGameStart.setOnAction(e -> stage.setScene(gameScene(stage)));
 
@@ -111,11 +103,9 @@ public class GUIDriver extends Application{
         layout.getChildren().addAll(optionsMenu, btnDrawOpponent, btnRemoveDoubles, btnEndTurn, btnQuitGame, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
-        layout.setStyle("-fx-background-color:lightsteelblue");
 
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.LIGHTSTEELBLUE);
         
 
         handPane = new Pane();
@@ -203,7 +193,7 @@ public class GUIDriver extends Application{
             txt.setFill(Color.BLACK);
         }
       //  container.getChildren().addAll(rect, txt); previous code
-        ImageView cardImage = new ImageView(card.getImage());
+        ImageView cardImage = new ImageView(card.getFrontImg());
         container.getChildren().add(cardImage);
         return container;
 
@@ -218,9 +208,7 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane);
-        layout.setStyle("-fx-background-color:palegreen");
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.PALEGREEN);
         stage.setScene(scene);
         stage.show();
     }
@@ -234,15 +222,13 @@ public class GUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane);
-        layout.setStyle("-fx-background-color:lightcoral");
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.LIGHTCORAL);
-        
         stage.setScene(scene);
         stage.show();
     }
     
     private static void renderHand(Hand hand, Pane pane){
+
         pane.getChildren().clear();
 
         double startX = 30;

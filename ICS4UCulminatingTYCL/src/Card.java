@@ -10,17 +10,19 @@ public class Card {
     // The value of the card
     private String value;
     
-    private Image img;
+    private Image frontImg;
+    private Image backImg;
 
     /**
     * Constructs a card with a specified suit and value
     * @param String s - the suit of the card
     * @param String v - the value of the card
     */
-    Card (String s, String v, Image image) {
+    Card (String s, String v, Image frontIMG, Image backIMG) {
         suit = s;
         value = v;
-        img = image;
+        frontImg = frontIMG;
+        backImg = backIMG;
     }
 
     /**
@@ -31,11 +33,15 @@ public class Card {
         return value;
     }
 
-    public Image getImage() {
-    	return img;
+    public Image getFrontImg() {
+    	return frontImg;
     }
-    /**
-    * Returns a string representation of the card (the suit followed by the value)
+
+    public Image getBackImg() {
+    	return backImg;
+    }
+    
+    /** Returns a string representation of the card (the suit followed by the value)
     * @return String representation of the card
     */
     public String toString () {

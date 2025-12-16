@@ -48,10 +48,12 @@ public class Deck {
 			for (String name : names) {
 				
 				String img = "/images/" + name + "_of_" + suit + ".png";
+				String backImg = "/images/blank.png";
 				System.out.println(img);
 				
 				Image image3 = new Image(getClass().getResourceAsStream(img));
-				Card c = new Card(suit,name, image3);
+				Image backOfCard = new Image(getClass().getResourceAsStream(backImg));
+				Card c = new Card(suit, name, image3, backOfCard);
 				deck.add(c);
 			}
 		}
