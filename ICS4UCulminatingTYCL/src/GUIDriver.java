@@ -178,7 +178,7 @@ public class GUIDriver extends Application{
         return scene;
     }
     
-    private static Pane createCardNode(Card card, double width, double height){
+    private static Pane createFrontCardNode(Card card, double width, double height){
 
         Pane container = new Pane();
 
@@ -202,6 +202,35 @@ public class GUIDriver extends Application{
         }
       //  container.getChildren().addAll(rect, txt); previous code
         ImageView cardImage = new ImageView(card.getFrontImg());
+        container.getChildren().add(cardImage);
+        return container;
+
+    }  
+    
+    private static Pane createBackCardNode(Card card, double width, double height){
+
+        Pane container = new Pane();
+
+        Rectangle rect= new Rectangle(width,height);
+        rect.setArcWidth(10);
+        rect.setArcHeight(10);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+
+        Text txt= new Text(card.toString());
+        txt.setFont(Font.font("Arial", 18));
+        txt.setX(10);
+        txt.setY(25);
+
+        String suit= card.getSuit().trim();
+         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
+        if (suit.contains("heart") || suit.contains("diamond")) {
+            txt.setFill(Color.RED);
+        } else {
+            txt.setFill(Color.BLACK);
+        }
+      //  container.getChildren().addAll(rect, txt); previous code
+        ImageView cardImage = new ImageView(card.getBackImg());
         container.getChildren().add(cardImage);
         return container;
 
