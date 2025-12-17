@@ -38,14 +38,19 @@ public class GUIDriver extends Application{
         private final static double CARD_OVERLAP = 40;
 
     public void start (Stage stage) throws Exception {
+    	deck = deck.resetDeck();
         Label title = new Label ("~~~~Old Maid~~~~");
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        Font font = Font.font("ARIAL", 25);
+        Font smallFont = Font.font("Times New Roman", 25);
+        Font bigFont = Font.font("Times New Roman", 50);
   
-        btnGameStart.setPrefSize(155, 20); 
-        btnInstructions.setPrefSize(155, 20); 
+        btnGameStart.setPrefSize(155, 30); 
+        btnInstructions.setPrefSize(155, 30); 
+        title.setFont(bigFont);
+        btnGameStart.setFont(smallFont);
+        btnInstructions.setFont(smallFont);
 
         HBox buttonHolder = new HBox(20);
         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
@@ -68,12 +73,56 @@ public class GUIDriver extends Application{
         stage.setScene(scene);
         stage.show();
     }
+    
+    public static Scene startScene (Stage stage) {
+    	 deck = deck.resetDeck();
+    	 Label title = new Label ("~~~~Old Maid~~~~");
+         Button btnGameStart = new Button ("Start Game");
+         Button btnInstructions = new Button ("Instructions");
+         
+         Font smallFont = Font.font("Times New Roman", 25);
+         Font bigFont = Font.font("Times New Roman", 50);
+   
+         btnGameStart.setPrefSize(155, 20); 
+         btnInstructions.setPrefSize(155, 20); 
+         
+         title.setFont(bigFont);
+         btnGameStart.setFont(smallFont);
+         btnInstructions.setFont(smallFont);
+
+         HBox buttonHolder = new HBox(20);
+         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
+         buttonHolder.setAlignment(Pos.CENTER);
+
+         // Create a layout object
+         VBox layout = new VBox(30);
+         layout.getChildren().addAll(title, buttonHolder);
+         layout.setAlignment(Pos.CENTER);
+         layout.setStyle("-fx-background-color:lightsteelblue");
+
+         Scene scene = new Scene(layout, 500, 500);
+         scene.setFill(Color.LIGHTSTEELBLUE);
+         Scene scene1 = gameScene(stage);
+         Scene scene2 = instructionsScene(stage);
+
+         btnGameStart.setOnAction(e -> stage.setScene(scene1));
+         btnInstructions.setOnAction(e -> stage.setScene(scene2));
+
+         return scene;
+    }
 
     
-    public Scene instructionsScene (Stage stage){
+    public static Scene instructionsScene (Stage stage){
         Label title = new Label ("~~~~Instructions~~~~");
         Label instructions = new Label ("The first player draws one card from their opponent and discards any\nresulting pair. That player then offers their hand to the next player.\nPlay continues this way until only one unpaired card remains and \nwhoever holds it is the Old Maid. Have fun!");
         Button btnGameStart = new Button ("Start Game");
+        
+        Font smallFont = Font.font("Times New Roman", 16);
+        Font bigFont = Font.font("Times New Roman", 50);
+        
+        title.setFont(bigFont);
+        btnGameStart.setFont(smallFont);
+        instructions.setFont(smallFont);
         
         // Create a layout object
         VBox layout = new VBox(10);
@@ -90,7 +139,7 @@ public class GUIDriver extends Application{
     }
 
 
-    public Scene gameScene (Stage stage){
+    public static Scene gameScene (Stage stage){
     	
 //        gameSetup();
         Label optionsMenu = new Label ("~~~Options Menu~~~");
@@ -99,11 +148,21 @@ public class GUIDriver extends Application{
         Button btnRemoveDoubles = new Button ("Remove doubles");
         Button btnEndTurn = new Button ("End turn");
         Button btnQuitGame = new Button ("Quit game");
+        
+        Font smallFont = Font.font("Times New Roman", 15);
+        Font bigFont = Font.font("Times New Roman", 20);
   
         btnDrawOpponent.setPrefSize(155, 20); 
         btnRemoveDoubles.setPrefSize(155, 20); 
         btnEndTurn.setPrefSize(155, 20); 
         btnQuitGame.setPrefSize(155, 20); 
+        
+        btnDrawOpponent.setFont(smallFont); 
+        btnRemoveDoubles.setFont(smallFont); 
+        btnEndTurn.setFont(smallFont);  
+        btnQuitGame.setFont(smallFont); 
+        errorMessage.setFont(smallFont); 
+        optionsMenu.setFont(bigFont); 
 
         // Create a layout object
         VBox layout = new VBox(5);
@@ -123,6 +182,10 @@ public class GUIDriver extends Application{
         oppPane.setPrefSize(600,200);
 
         deck.shuffleDeck();
+        
+        if (oldMaidCard.getSize()>1) {
+        	oldMaidCard.removeCard(0);
+        }
 
         if (Math.random() <= 0.5) {
             deck.deal(25, hand1);
@@ -178,9 +241,11 @@ public class GUIDriver extends Application{
             errorMessage.setText("");
             playerTurnStatus = false;
             opponentTurnStatus = true;
+            errorMessage.setText("Opponent Turn...");
             opponentTurn(stage);
             renderHand(hand1, handPane);
             renderHand(hand2, oppPane);
+            errorMessage.setText("Opponent Turn Finished.");
         });
         btnQuitGame.setOnAction(e -> System.exit(0));
         return scene;
@@ -247,12 +312,18 @@ public class GUIDriver extends Application{
     public static void endScenePlayerWin (Stage stage) {
         Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
         Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
+        Button btnMainMenu = new Button ("Return to Main Menu");
+        btnMainMenu.setPrefSize(200, 20);
         // Create a layout object
         VBox layout = new VBox(10);
         finalPane = new Pane();
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
-        layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane);
+        btnMainMenu.setOnAction(e ->  {
+        	stage.setScene(startScene(stage));
+        	oldMaidCard.removeCard(0);
+        });
+        layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane, btnMainMenu);
         layout.setStyle("-fx-background-color:palegreen");
         Scene scene = new Scene(layout, 500, 500);
         scene.setFill(Color.PALEGREEN);
@@ -263,12 +334,18 @@ public class GUIDriver extends Application{
     public static void endScenePlayerLose (Stage stage) {
         Label loseMessage = new Label ("Your opponent got rid of all their cards. You are the Old Maid!");
         Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
+        Button btnMainMenu = new Button ("Return to Main Menu");
+        btnMainMenu.setPrefSize(200, 20);
      // Create a layout object
         VBox layout = new VBox(10);
         finalPane = new Pane();
         layout.setAlignment(Pos.CENTER);
-        renderHand(oldMaidCard, finalPane);
-        layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane);
+        renderHand(oldMaidCard, finalPane); 
+        btnMainMenu.setOnAction(e ->  {
+        	stage.setScene(startScene(stage));
+        	oldMaidCard.removeCard(0);
+        });
+        layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane, btnMainMenu);
         layout.setStyle("-fx-background-color:lightcoral");
         Scene scene = new Scene(layout, 500, 500);
         scene.setFill(Color.LIGHTCORAL);
@@ -308,15 +385,14 @@ public class GUIDriver extends Application{
 	        }
         }
         else if (hand.getName().equals("oldMaidCard")) {
-	        for(int i=0;i<hand.getSize(); i++){
-	            Card card= hand.getCard(i);
+        	pane.getChildren().clear();
+	            Card card= hand.getCard(0);
 	
 	            Pane cardNode = createFrontCardNode(card, CARD_WIDTH,CARD_HEIGHT);
-	            cardNode.setLayoutX(100 +i*CARD_OVERLAP);
+	            cardNode.setLayoutX(210);
 	            cardNode.setLayoutY(30);
 	            
 	            pane.getChildren().add(cardNode);
-	        }
         }
     }
 

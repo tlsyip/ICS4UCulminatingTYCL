@@ -93,6 +93,11 @@ public class Deck {
     public void shuffleDeck () {
         Collections.shuffle(deck);
     }
+    
+    public Deck resetDeck() {
+    	Deck d = new Deck(); 
+    	return d;
+    }
 
     /**
     * returns a string representation of the deck.
