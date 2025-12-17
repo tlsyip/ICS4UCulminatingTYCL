@@ -147,9 +147,10 @@ public class GUIDriver extends Application{
         
         btnDrawOpponent.setOnAction(e -> {
             if (!alreadyDrawn) {
+            	errorMessage.setText("");
             	checkGameOver(stage);
-                errorMessage.setText("");
                 hand1.drawOpponent(hand2);
+                checkGameOver(stage);
                 alreadyDrawn = true;
               //  hand1.displayHand();
                 renderHand(hand1, handPane);
@@ -306,6 +307,17 @@ public class GUIDriver extends Application{
 	            pane.getChildren().add(cardNode);
 	        }
         }
+        else if (hand.getName().equals("oldMaidCard")) {
+	        for(int i=0;i<hand.getSize(); i++){
+	            Card card= hand.getCard(i);
+	
+	            Pane cardNode = createFrontCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+	            cardNode.setLayoutX(100 +i*CARD_OVERLAP);
+	            cardNode.setLayoutY(30);
+	            
+	            pane.getChildren().add(cardNode);
+	        }
+        }
     }
 
     public static void opponentTurn(Stage stage) {
@@ -329,12 +341,12 @@ public class GUIDriver extends Application{
         
         
         // checks if opponent has lost
-        if(p1==0 && p2==1){
+        if(p1==0){
             System.out.println("You got rid of all your cards! Your opponent is the Old Maid!");
             endScenePlayerWin(stage);
         }
         // checks if user has lost
-        else if(p1==1 && p2==0){
+        else if(p2==0){
             System.out.println("Your opponent got rid of all their cards. You are the Old Maid!");
             endScenePlayerLose(stage);
         }
