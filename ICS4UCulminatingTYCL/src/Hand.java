@@ -75,7 +75,7 @@ public class Hand {
     * @param int index - index of the card being removed
     * @return removing the card
     */
-    private Card removeCard(int index) {
+    public Card removeCard(int index) {
         return cards.remove(index);
     }
     public Card getCard(int index){
