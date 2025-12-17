@@ -43,10 +43,14 @@ public class GUIDriver extends Application{
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        Font font = Font.font("ARIAL", 25);
+        Font smallFont = Font.font("Times New Roman", 25);
+        Font bigFont = Font.font("Times New Roman", 50);
   
-        btnGameStart.setPrefSize(155, 20); 
-        btnInstructions.setPrefSize(155, 20); 
+        btnGameStart.setPrefSize(155, 30); 
+        btnInstructions.setPrefSize(155, 30); 
+        title.setFont(bigFont);
+        btnGameStart.setFont(smallFont);
+        btnInstructions.setFont(smallFont);
 
         HBox buttonHolder = new HBox(20);
         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
@@ -76,10 +80,15 @@ public class GUIDriver extends Application{
          Button btnGameStart = new Button ("Start Game");
          Button btnInstructions = new Button ("Instructions");
          
-         Font font = Font.font("ARIAL", 25);
+         Font smallFont = Font.font("Times New Roman", 25);
+         Font bigFont = Font.font("Times New Roman", 50);
    
          btnGameStart.setPrefSize(155, 20); 
          btnInstructions.setPrefSize(155, 20); 
+         
+         title.setFont(bigFont);
+         btnGameStart.setFont(smallFont);
+         btnInstructions.setFont(smallFont);
 
          HBox buttonHolder = new HBox(20);
          buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
@@ -108,6 +117,13 @@ public class GUIDriver extends Application{
         Label instructions = new Label ("The first player draws one card from their opponent and discards any\nresulting pair. That player then offers their hand to the next player.\nPlay continues this way until only one unpaired card remains and \nwhoever holds it is the Old Maid. Have fun!");
         Button btnGameStart = new Button ("Start Game");
         
+        Font smallFont = Font.font("Times New Roman", 16);
+        Font bigFont = Font.font("Times New Roman", 50);
+        
+        title.setFont(bigFont);
+        btnGameStart.setFont(smallFont);
+        instructions.setFont(smallFont);
+        
         // Create a layout object
         VBox layout = new VBox(10);
         layout.getChildren().addAll(title, instructions, btnGameStart);
@@ -132,11 +148,21 @@ public class GUIDriver extends Application{
         Button btnRemoveDoubles = new Button ("Remove doubles");
         Button btnEndTurn = new Button ("End turn");
         Button btnQuitGame = new Button ("Quit game");
+        
+        Font smallFont = Font.font("Times New Roman", 15);
+        Font bigFont = Font.font("Times New Roman", 20);
   
         btnDrawOpponent.setPrefSize(155, 20); 
         btnRemoveDoubles.setPrefSize(155, 20); 
         btnEndTurn.setPrefSize(155, 20); 
         btnQuitGame.setPrefSize(155, 20); 
+        
+        btnDrawOpponent.setFont(smallFont); 
+        btnRemoveDoubles.setFont(smallFont); 
+        btnEndTurn.setFont(smallFont);  
+        btnQuitGame.setFont(smallFont); 
+        errorMessage.setFont(smallFont); 
+        optionsMenu.setFont(bigFont); 
 
         // Create a layout object
         VBox layout = new VBox(5);
@@ -215,9 +241,11 @@ public class GUIDriver extends Application{
             errorMessage.setText("");
             playerTurnStatus = false;
             opponentTurnStatus = true;
+            errorMessage.setText("Opponent Turn...");
             opponentTurn(stage);
             renderHand(hand1, handPane);
             renderHand(hand2, oppPane);
+            errorMessage.setText("Opponent Turn Finished.");
         });
         btnQuitGame.setOnAction(e -> System.exit(0));
         return scene;
