@@ -51,9 +51,26 @@ public class Deck {
 				String backImg = "/images/blank.png";
 				System.out.println(img);
 				
+				int rank;
+                if (name.equals("ace")) {
+                    rank = 14;
+                }
+                else if (name.equals("jack")) {
+                    rank = 11;
+                }
+                else if (name.equals("queen")) {
+                    rank = 12;
+                }
+                else if (name.equals("king")) {
+                    rank = 13;
+                }
+                else {
+                    rank = Integer.parseInt(name);
+                }
+				
 				Image image3 = new Image(getClass().getResourceAsStream(img));
 				Image backOfCard = new Image(getClass().getResourceAsStream(backImg));
-				Card c = new Card(suit, name, image3, backOfCard);
+				Card c = new Card(suit, name, rank, image3, backOfCard);
 				deck.add(c);
 			}
 		}
