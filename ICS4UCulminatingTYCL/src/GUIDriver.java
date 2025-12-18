@@ -36,7 +36,10 @@ public class GUIDriver extends Application{
         private final static double CARD_WIDTH  = 80;
         private final static double CARD_HEIGHT = 120;
         private final static double CARD_OVERLAP = 40;
-
+        
+    /**
+     * 
+     */
     public void start (Stage stage) throws Exception {
     	deck = deck.resetDeck();
         Label title = new Label ("~~~~Old Maid~~~~");
@@ -251,6 +254,13 @@ public class GUIDriver extends Application{
         return scene;
     }
     
+    /**
+     * 
+     * @param card
+     * @param width
+     * @param height
+     * @return Pane with front of card images
+     */
     private static Pane createFrontCardNode(Card card, double width, double height){
 
         Pane container = new Pane();
@@ -279,6 +289,14 @@ public class GUIDriver extends Application{
         return container;
 
     }  
+    
+    /**
+     * 
+     * @param card
+     * @param width
+     * @param height
+     * @return Pane with back of card image
+     */
     
     private static Pane createBackCardNode(Card card, double width, double height){
 

@@ -9,6 +9,7 @@ public class Card {
     private String suit;
     // The value of the card
     private String value;
+    private int rank;
     
     private Image frontImg;
     private Image backImg;
@@ -18,9 +19,10 @@ public class Card {
     * @param String s - the suit of the card
     * @param String v - the value of the card
     */
-    Card (String s, String v, Image frontIMG, Image backIMG) {
+    Card (String s, String v, int r, Image frontIMG, Image backIMG) {
         suit = s;
         value = v;
+        rank = r;
         frontImg = frontIMG;
         backImg = backIMG;
     }
@@ -50,5 +52,21 @@ public class Card {
     
     public String getSuit(){
         return suit; 
+    }
+
+    public int getRank(){
+        return rank;
+    }
+    
+    public void compare(Card c2){
+        if(this.rank>c2.getRank()){
+            System.out.println("Big");
+        }
+        else if(this.rank<c2.getRank()){
+            System.out.println("Small");
+        }
+        else if(this.rank==c2.getRank()){
+            System.out.println("Equal");
+        }
     }
 }
