@@ -29,9 +29,10 @@ public class WarGUIDriver extends Application{
     private static Pane oppPane;
     private static Card playerCurrCard;
     private static Card opponentCurrCard;
+
     private final static double CARD_WIDTH  = 80;
     private final static double CARD_HEIGHT = 120;
-    private final static double CARD_OVERLAP = 0;
+    private final static double CARD_OVERLAP = 40;
 
     public void start (Stage stage) throws Exception {
         
@@ -82,7 +83,7 @@ public class WarGUIDriver extends Application{
 
         return scene;
     }
-     public Scene gameScene (Stage stage){
+    public Scene gameScene (Stage stage){
         Label optionsMenu = new Label ("~~~Options Menu~~~");
         Label errorMessage = new Label ("");
         Button btnFlipCard = new Button ("Flip card");      
@@ -118,8 +119,13 @@ public class WarGUIDriver extends Application{
         layout.getChildren().addAll(oppPane, handPane);
 
         btnFlipCard.setOnAction(e -> {
-            flipCard(hand1, handPane);
-            flipCard(hand2, oppPane);
+            flipCard();
+        });
+        btnNextRound.setOnAction(e -> {
+            nextRound();
+            renderHand(hand1, handPane);
+            renderHand(hand2, oppPane);
+            checkGameOver(stage);
         });
         return scene;
 
@@ -136,7 +142,7 @@ public class WarGUIDriver extends Application{
             Card card= hand.getCard(i);
 
             Pane cardNode = createCardNode(card, CARD_WIDTH,CARD_HEIGHT, "back");
-            cardNode.setLayoutX(startX +i*CARD_OVERLAP);
+            cardNode.setLayoutX(startX);
             cardNode.setLayoutY(startY);
             
             pane.getChildren().add(cardNode);
@@ -178,29 +184,190 @@ public class WarGUIDriver extends Application{
 
     }  
 
-    public static void flipCard(Hand hand, Pane pane){
-        pane.getChildren().clear();
+    public static void flipCard(){
+        handPane.getChildren().clear();
+        oppPane.getChildren().clear();
 
         double startX = 210;
         double startY = 30;
-            playerCurrCard = hand.getCard(0);
-            opponentCurrCard = hand2.getCard(0);
+        double oppStartX = 210;
+        double oppStartY = 30;
 
-            Pane cardNode = createCardNode(playerCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
-            cardNode.setLayoutX(startX);
-            cardNode.setLayoutY(startY);
-            pane.getChildren().add(cardNode);
-            playerCurrCard.compare(opponentCurrCard);
+        playerCurrCard = hand1.getCard(0);
+        opponentCurrCard = hand2.getCard(0);
+
+        Pane cardNode = createCardNode(playerCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
+        Pane oppCardNode = createCardNode(opponentCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
+        cardNode.setLayoutX(startX);
+        cardNode.setLayoutY(startY);
+        oppCardNode.setLayoutX(oppStartX);
+        oppCardNode.setLayoutY(oppStartY);
+        handPane.getChildren().add(cardNode);
+        oppPane.getChildren().add(oppCardNode);
+        playerCurrCard.compare(opponentCurrCard);
+        if (playerCurrCard.getStatus()==2) {
+            System.out.println("seen");
+        battle();
+        }
     }
 
-    
+    public void nextRound() {
+        if (playerCurrCard.getStatus()==0) {
+            hand1.addCard(opponentCurrCard);
+            hand1.addCard(playerCurrCard);
+            hand1.removeCard(0);
+            hand2.removeCard(0);
+        }
+        else if (playerCurrCard.getStatus()==1) {
+            hand2.addCard(opponentCurrCard);
+            hand2.addCard(playerCurrCard);
+            hand2.removeCard(0);
+            hand1.removeCard(0);
+        }
+    }
 
+    private static void checkGameOver(Stage stage){
+        int p1 = hand1.getSize();
+        int p2 = hand2.getSize();    
+        // checks if opponent has lost
+        if(p1==0){
+            System.out.println("You Lost");
+        }
+        // checks if user has lost
+        else if(p2==0){
+            System.out.println("You Win");
+        }
+    }
 
+    private static void battle() {
+        if (hand1.getSize() < 4 || hand2.getSize() < 4) {
+            System.out.println("Not enough cards for war");
+        return;
+        }
+        handPane.getChildren().clear();
+        oppPane.getChildren().clear();
+        double startX = 30;
+        double startY = 30;
+        double oppStartY = 30;
+	    for(int i=0;i<3; i++){
+            Card card = hand1.getCard(i);
+            if (i%2!=0) {
+                Pane cardNode = createBackCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+                cardNode.setLayoutX(startX +i*CARD_OVERLAP);
+                cardNode.setLayoutY(startY);
+                handPane.getChildren().add(cardNode);
+            }
+            else {
+                Pane cardNode = createFrontCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+                cardNode.setLayoutX(startX +i*CARD_OVERLAP);
+                cardNode.setLayoutY(startY);
+                handPane.getChildren().add(cardNode);
+                playerCurrCard = card;
+            }  
+	    }
+	    for(int j=0;j<3; j++){
+	            Card card = hand2.getCard(j);
+            if (j%2!=0) {
+                Pane cardNode = createBackCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+                cardNode.setLayoutX(startX +j*CARD_OVERLAP);
+                cardNode.setLayoutY(oppStartY);
+                oppPane.getChildren().add(cardNode);
+            }
+            else {
+                Pane cardNode = createFrontCardNode(card, CARD_WIDTH,CARD_HEIGHT);
+                cardNode.setLayoutX(startX +j*CARD_OVERLAP);
+                cardNode.setLayoutY(oppStartY);
+                oppPane.getChildren().add(cardNode);
+                opponentCurrCard = card;
+            }  
+        }
+        playerCurrCard.compare(opponentCurrCard);
+        if (playerCurrCard.getStatus()==0) {
+            hand1.addCard(opponentCurrCard);
+            hand1.addCard(playerCurrCard);
+            hand1.removeCard(0);
+            hand2.removeCard(0);
+        }
+        else if (playerCurrCard.getStatus()==1) {
+            hand2.addCard(opponentCurrCard);
+            hand2.addCard(playerCurrCard);
+            hand2.removeCard(0);
+            hand1.removeCard(0);
+        }
+        else if (playerCurrCard.getStatus()==2) {
+            battle();
+        }
+    }
+
+    private static Pane createFrontCardNode(Card card, double width, double height){
+
+        Pane container = new Pane();
+
+        Rectangle rect= new Rectangle(width,height);
+        rect.setArcWidth(10);
+        rect.setArcHeight(10);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+
+        Text txt= new Text(card.toString());
+        txt.setFont(Font.font("Arial", 18));
+        txt.setX(10);
+        txt.setY(25);
+
+        String suit= card.getSuit().trim();
+         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
+        if (suit.contains("heart") || suit.contains("diamond")) {
+            txt.setFill(Color.RED);
+        } else {
+            txt.setFill(Color.BLACK);
+        }
+      //  container.getChildren().addAll(rect, txt); previous code
+        ImageView cardImage = new ImageView(card.getFrontImg());
+        container.getChildren().add(cardImage);
+        return container;
+
+    }  
     
+    /**
+     * 
+     * @param card
+     * @param width
+     * @param height
+     * @return Pane with back of card image
+     */
+    
+    private static Pane createBackCardNode(Card card, double width, double height){
+
+        Pane container = new Pane();
+
+        Rectangle rect= new Rectangle(width,height);
+        rect.setArcWidth(10);
+        rect.setArcHeight(10);
+        rect.setFill(Color.WHITE);
+        rect.setStroke(Color.BLACK);
+
+        Text txt= new Text(card.toString());
+        txt.setFont(Font.font("Arial", 18));
+        txt.setX(10);
+        txt.setY(25);
+
+        String suit= card.getSuit().trim();
+         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
+        if (suit.contains("heart") || suit.contains("diamond")) {
+            txt.setFill(Color.RED);
+        } else {
+            txt.setFill(Color.BLACK);
+        }
+      //  container.getChildren().addAll(rect, txt); previous code
+        ImageView cardImage = new ImageView(card.getBackImg());
+        container.getChildren().add(cardImage);
+        return container;
+
+    } 
 
     public static void main(String [] args) {
         launch(args);
-    }
+    } 
 
 
 }
