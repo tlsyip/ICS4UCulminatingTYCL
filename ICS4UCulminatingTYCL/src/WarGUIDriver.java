@@ -160,12 +160,13 @@ public class WarGUIDriver extends Application{
         opponentDeckSize.setFont(smallFont);
         
         btnFlipCard.setPrefSize(155, 20);        
-        btnNextRound.setPrefSize(155, 20); 
+        btnNextRound.setPrefSize(155, 20);
+        btnQuitGame.setPrefSize(155, 20); 
     
      
         // Create a layout object
         VBox layout = new VBox(5);
-        layout.getChildren().addAll(optionsMenu,btnFlipCard, btnNextRound, errorMessage);
+        layout.getChildren().addAll(optionsMenu,btnFlipCard, btnNextRound, btnQuitGame, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
         layout.getChildren().addAll(opponentDeckSize, playerDeckSize);
@@ -214,7 +215,7 @@ public class WarGUIDriver extends Application{
                 errorMessage.setText("Card not flipped yet.");
             }
         });
-        
+        btnQuitGame.setOnAction(e -> System.exit(0));
     
         return scene;
       
