@@ -24,6 +24,7 @@ public class WarGUIDriver extends Application{
     private static Scanner input = new Scanner(System.in);
     private static Hand hand1 = new Hand("hand1");
     private static Hand hand2 = new Hand("hand2");
+    private static Hand tempHand = new Hand("tempHand");
     private static Deck deck = new Deck();
     private static Pane handPane;
     private static Pane oppPane;
@@ -331,17 +332,16 @@ public class WarGUIDriver extends Application{
     }
 
     private static void battle(Stage stage) {
-        if (hand1.getSize() < 4) {
+        if (hand1.getSize() <= 3) {
             checkGameOver(stage);
             System.out.println("Not enough cards for war");
             return;
             
         }
-        if(hand2.getSize()<4){
+        if(hand2.getSize() <= 3){
             checkGameOver(stage);
             System.out.println("You win, not enough cards for opponent");
             return;
-
         }
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
@@ -350,6 +350,7 @@ public class WarGUIDriver extends Application{
         double oppStartY = 30;
 	    for(int i=0;i<3; i++){
             Card card = hand1.getCard(i);
+            tempHand.addCard(card);
             if (i%2!=0) {
                 Pane cardNode = createBackCardNode(card, CARD_WIDTH,CARD_HEIGHT);
                 cardNode.setLayoutX(startX +i*CARD_OVERLAP);
@@ -366,6 +367,7 @@ public class WarGUIDriver extends Application{
 	    }
 	    for(int j=0;j<3; j++){
 	            Card card = hand2.getCard(j);
+	            tempHand.addCard(card);
             if (j%2!=0) {
                 Pane cardNode = createBackCardNode(card, CARD_WIDTH,CARD_HEIGHT);
                 cardNode.setLayoutX(startX +j*CARD_OVERLAP);
@@ -382,16 +384,14 @@ public class WarGUIDriver extends Application{
         }
         playerCurrCard.compare(opponentCurrCard);
         if (playerCurrCard.getStatus()==0) {
-            hand1.addCard(opponentCurrCard);
-            hand1.addCard(playerCurrCard);
-            hand1.removeCard(0);
-            hand2.removeCard(0);
+        	for (int i = 0; i < tempHand.getSize(); i++) {
+        		hand1.addCard(tempHand.getCard(i));
+        	}
         }
         else if (playerCurrCard.getStatus()==1) {
-            hand2.addCard(opponentCurrCard);
-            hand2.addCard(playerCurrCard);
-            hand2.removeCard(0);
-            hand1.removeCard(0);
+        	for (int j = 0; j < tempHand.getSize(); j++) {
+        		hand2.addCard(tempHand.getCard(j));
+        	}
         }
         else if (playerCurrCard.getStatus()==2) {
             battle(stage);
