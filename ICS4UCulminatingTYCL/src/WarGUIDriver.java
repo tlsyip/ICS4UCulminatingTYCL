@@ -50,9 +50,16 @@ public class WarGUIDriver extends Application{
         Label title = new Label ("~~~~War~~~~");
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
+        
+        Font smallFont = Font.font("Times New Roman", 25);
+        Font bigFont = Font.font("Times New Roman", 50);
+        
+        btnGameStart.setPrefSize(155, 30); 
+        btnInstructions.setPrefSize(155, 30); 
+        title.setFont(bigFont);
+        btnGameStart.setFont(smallFont);
+        btnInstructions.setFont(smallFont);
   
-        btnGameStart.setPrefSize(155, 20); 
-        btnInstructions.setPrefSize(155, 20); 
 
         HBox buttonHolder = new HBox(20);
         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
@@ -62,8 +69,10 @@ public class WarGUIDriver extends Application{
         VBox layout = new VBox(30);
         layout.getChildren().addAll(title, buttonHolder);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color:moccasin");
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.MOCCASIN);
         Scene scene1 = gameScene(stage);  
         Scene scene2 = instructionsScene(stage);
 
@@ -114,8 +123,18 @@ public class WarGUIDriver extends Application{
         VBox layout = new VBox(10);
         layout.getChildren().addAll(title, instructions, btnGameStart);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color:moccasin");
+        
+        Font smallFont = Font.font("Times New Roman", 16);
+        Font bigFont = Font.font("Times New Roman", 50);
+        
+        title.setFont(bigFont);
+        btnGameStart.setFont(smallFont);
+        instructions.setFont(smallFont);
 
         Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.MOCCASIN);
+        
 
         btnGameStart.setOnAction(e -> stage.setScene(gameScene(stage)));
         
@@ -127,7 +146,18 @@ public class WarGUIDriver extends Application{
         Label errorMessage = new Label ("");
         Button btnFlipCard = new Button ("Flip card");      
         Button btnNextRound = new Button ("Next Round");
-
+        Button btnQuitGame= new Button("Quit Game");
+        Font smallFont = Font.font("Times New Roman", 15);
+        Font bigFont = Font.font("Times New Roman", 20);
+            
+        btnQuitGame.setFont(smallFont); 
+        errorMessage.setFont(smallFont); 
+        optionsMenu.setFont(bigFont); 
+        btnFlipCard.setFont(smallFont);
+        btnNextRound.setFont(smallFont);
+        playerDeckSize.setFont(smallFont);
+        opponentDeckSize.setFont(smallFont);
+        
         btnFlipCard.setPrefSize(155, 20);        
         btnNextRound.setPrefSize(155, 20); 
     
@@ -138,8 +168,11 @@ public class WarGUIDriver extends Application{
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
         layout.getChildren().addAll(opponentDeckSize, playerDeckSize);
+        layout.setStyle("-fx-background-color:moccasin");
+        
 
         Scene scene = new Scene(layout, 500, 500);   
+        scene.setFill(Color.MOCCASIN);
 
         handPane = new Pane();
         handPane.setPrefSize(600,200);
