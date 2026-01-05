@@ -9,8 +9,9 @@ public class Card {
     private String suit;
     // The value of the card
     private String value;
+    // The rank of the card
     private int rank;
-    
+    private int status;
     private Image frontImg;
     private Image backImg;
 
@@ -23,6 +24,7 @@ public class Card {
         suit = s;
         value = v;
         rank = r;
+        status = -1;
         frontImg = frontIMG;
         backImg = backIMG;
     }
@@ -57,16 +59,23 @@ public class Card {
     public int getRank(){
         return rank;
     }
+
+    public int getStatus() {
+        return status;
+    }
     
     public void compare(Card c2){
         if(this.rank>c2.getRank()){
             System.out.println("Big");
+            status = 0;
         }
         else if(this.rank<c2.getRank()){
             System.out.println("Small");
+            status = 1;
         }
         else if(this.rank==c2.getRank()){
             System.out.println("Equal");
+            status = 2;
         }
     }
 }
