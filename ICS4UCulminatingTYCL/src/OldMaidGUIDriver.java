@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Collections;
 
-public class GUIDriver extends Application{
+public class OldMaidGUIDriver extends Application{
         private static Scanner input = new Scanner(System.in);
         private static boolean playerTurnStatus = true;
         private static boolean opponentTurnStatus = false;
