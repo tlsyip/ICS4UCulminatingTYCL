@@ -27,14 +27,25 @@ public class WarGUIDriver extends Application{
     private static Deck deck = new Deck();
     private static Pane handPane;
     private static Pane oppPane;
+    private static Pane finalPane;
+    private static int playerDeckCount;
+    private static int oppDeckCount;
+  
     private static Card playerCurrCard;
     private static Card opponentCurrCard;
 
     private final static double CARD_WIDTH  = 80;
     private final static double CARD_HEIGHT = 120;
     private final static double CARD_OVERLAP = 40;
+    private static boolean flipCard = false;
+    private static boolean nextRound = true;
 
+    private static Label playerDeckSize;
+    private static Label opponentDeckSize;
+    
     public void start (Stage stage) throws Exception {
+        playerDeckSize = new Label("");
+        opponentDeckSize = new Label("");
         
         Label title = new Label ("~~~~War~~~~");
         Button btnGameStart = new Button ("Start Game");
@@ -61,11 +72,39 @@ public class WarGUIDriver extends Application{
 
         stage.setScene(scene);
         stage.show();
-
-
     }
 
-    public Scene instructionsScene (Stage stage){
+    public static Scene startScene (Stage stage) {
+        playerDeckSize = new Label("");
+        opponentDeckSize = new Label("");
+        
+        Label title = new Label ("~~~~War~~~~");
+        Button btnGameStart = new Button ("Start Game");
+        Button btnInstructions = new Button ("Instructions");
+  
+        btnGameStart.setPrefSize(155, 20); 
+        btnInstructions.setPrefSize(155, 20); 
+
+        HBox buttonHolder = new HBox(20);
+        buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
+        buttonHolder.setAlignment(Pos.CENTER);
+
+        // Create a layout object
+        VBox layout = new VBox(30);
+        layout.getChildren().addAll(title, buttonHolder);
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout, 500, 500);
+        Scene scene1 = gameScene(stage);  
+        Scene scene2 = instructionsScene(stage);
+
+        btnGameStart.setOnAction(e -> stage.setScene(scene1));
+        btnInstructions.setOnAction(e -> stage.setScene(scene2));
+
+        return scene;
+    }
+
+    public static Scene instructionsScene (Stage stage){
         Label title = new Label ("~~~~Instructions~~~~");
         Label instructions = new Label (" shuffle a standard deck, deal all cards face-down evenly between\ntwo players, then simultaneously flip your top card; the higher card \nwins both and adds them to their pile, while ties trigger a 'War' where \nplayers lay three cards down and flip a fourth (higher card wins all)\n until one player has all the cards, using Ace as high, 2 as low. Have fun!");
 
@@ -83,14 +122,12 @@ public class WarGUIDriver extends Application{
 
         return scene;
     }
-    public Scene gameScene (Stage stage){
+    public static Scene gameScene (Stage stage){
         Label optionsMenu = new Label ("~~~Options Menu~~~");
         Label errorMessage = new Label ("");
         Button btnFlipCard = new Button ("Flip card");      
         Button btnNextRound = new Button ("Next Round");
 
-  
-     
         btnFlipCard.setPrefSize(155, 20);        
         btnNextRound.setPrefSize(155, 20); 
     
@@ -100,7 +137,7 @@ public class WarGUIDriver extends Application{
         layout.getChildren().addAll(optionsMenu,btnFlipCard, btnNextRound, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
-
+        layout.getChildren().addAll(opponentDeckSize, playerDeckSize);
 
         Scene scene = new Scene(layout, 500, 500);   
 
@@ -111,24 +148,41 @@ public class WarGUIDriver extends Application{
 
         deck.shuffleDeck();
        
-        deck.deal(26, hand1);
-        deck.deal(26, hand2);
-
+        deck.deal(51, hand1);
+        deck.deal(1, hand2);
+        updateCounter();
         renderHand(hand1, handPane);
         renderHand(hand2, oppPane);
         layout.getChildren().addAll(oppPane, handPane);
 
         btnFlipCard.setOnAction(e -> {
-            flipCard();
+            errorMessage.setText("");
+            if (!flipCard) {
+                flipCard(stage);
+                flipCard = true;
+                nextRound = false;
+            }
+            else {
+                errorMessage.setText("Card already flipped.");
+            }
         });
         btnNextRound.setOnAction(e -> {
-            nextRound();
-            renderHand(hand1, handPane);
-            renderHand(hand2, oppPane);
-            checkGameOver(stage);
+            if (!nextRound) {
+                errorMessage.setText("");
+                nextRound();
+                nextRound = true;
+                renderHand(hand1, handPane);
+                renderHand(hand2, oppPane);
+                checkGameOver(stage);
+                flipCard = false;
+            }
+            else {
+                errorMessage.setText("Card not flipped yet.");
+            }
         });
+        
+    
         return scene;
-
       
      }
 
@@ -184,7 +238,7 @@ public class WarGUIDriver extends Application{
 
     }  
 
-    public static void flipCard(){
+    public static void flipCard(Stage stage){
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
 
@@ -207,22 +261,24 @@ public class WarGUIDriver extends Application{
         playerCurrCard.compare(opponentCurrCard);
         if (playerCurrCard.getStatus()==2) {
             System.out.println("seen");
-        battle();
+        battle(stage);
         }
     }
 
-    public void nextRound() {
+    public static void nextRound() {
         if (playerCurrCard.getStatus()==0) {
             hand1.addCard(opponentCurrCard);
             hand1.addCard(playerCurrCard);
             hand1.removeCard(0);
             hand2.removeCard(0);
+            updateCounter();
         }
         else if (playerCurrCard.getStatus()==1) {
             hand2.addCard(opponentCurrCard);
             hand2.addCard(playerCurrCard);
             hand2.removeCard(0);
             hand1.removeCard(0);
+            updateCounter();
         }
     }
 
@@ -232,17 +288,27 @@ public class WarGUIDriver extends Application{
         // checks if opponent has lost
         if(p1==0){
             System.out.println("You Lost");
+            endScenePlayerLose(stage);
         }
         // checks if user has lost
         else if(p2==0){
             System.out.println("You Win");
+            endScenePlayerWin(stage);
         }
     }
 
-    private static void battle() {
-        if (hand1.getSize() < 4 || hand2.getSize() < 4) {
+    private static void battle(Stage stage) {
+        if (hand1.getSize() < 4) {
+            checkGameOver(stage);
             System.out.println("Not enough cards for war");
-        return;
+            return;
+            
+        }
+        if(hand2.getSize()<4){
+            checkGameOver(stage);
+            System.out.println("You win, not enough cards for opponent");
+            return;
+
         }
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
@@ -295,8 +361,9 @@ public class WarGUIDriver extends Application{
             hand1.removeCard(0);
         }
         else if (playerCurrCard.getStatus()==2) {
-            battle();
+            battle(stage);
         }
+        checkGameOver(stage);
     }
 
     private static Pane createFrontCardNode(Card card, double width, double height){
@@ -364,6 +431,49 @@ public class WarGUIDriver extends Application{
         return container;
 
     } 
+
+    public static void updateCounter(){
+        playerDeckSize.setText("Your # of Cards: " + Integer.toString(hand1.getSize()));
+        opponentDeckSize.setText("Opponent # of Cards: " + Integer.toString(hand2.getSize()));
+    }
+
+     public static void endScenePlayerWin (Stage stage) {
+       Label winMessage = new Label ("You Win!");
+        Button btnMainMenu = new Button ("Return to Main Menu");
+        btnMainMenu.setPrefSize(200, 20);
+        // Create a layout object
+        VBox layout = new VBox(10);
+        finalPane = new Pane();
+        layout.setAlignment(Pos.CENTER);
+        btnMainMenu.setOnAction(e ->  {
+        	stage.setScene(startScene(stage));
+        });
+        layout.getChildren().addAll(winMessage, finalPane, btnMainMenu);
+        layout.setStyle("-fx-background-color:palegreen");
+        Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.PALEGREEN);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    public static void endScenePlayerLose (Stage stage) {
+        Label loseMessage = new Label ("You Lost!");
+        Button btnMainMenu = new Button ("Return to Main Menu");
+        btnMainMenu.setPrefSize(200, 20);
+        // Create a layout object
+        VBox layout = new VBox(10);
+        finalPane = new Pane();
+        layout.setAlignment(Pos.CENTER);
+        btnMainMenu.setOnAction(e ->  {
+        	stage.setScene(startScene(stage));
+        });
+        layout.getChildren().addAll(loseMessage, finalPane, btnMainMenu);
+        layout.setStyle("-fx-background-color:lightcoral");
+        Scene scene = new Scene(layout, 500, 500);
+        scene.setFill(Color.LIGHTCORAL);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     public static void main(String [] args) {
         launch(args);
