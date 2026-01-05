@@ -148,8 +148,8 @@ public class WarGUIDriver extends Application{
 
         deck.shuffleDeck();
        
-        deck.deal(51, hand1);
-        deck.deal(1, hand2);
+        deck.deal(26, hand1);
+        deck.deal(26, hand2);
         updateCounter();
         renderHand(hand1, handPane);
         renderHand(hand2, oppPane);
