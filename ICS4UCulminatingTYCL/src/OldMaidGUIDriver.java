@@ -38,7 +38,20 @@ public class OldMaidGUIDriver extends Application{
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        Font smallFont = Font.font("Times New Roman", 25);
+        btnGameStart.setStyle(
+        		"-fx-background-color: white; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:steelblue;"
+        );
+        btnInstructions.setStyle(
+        		"-fx-background-color: white; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:steelblue;"
+        );
+        
+        Font smallFont = Font.font("Times New Roman", 20);
         Font bigFont = Font.font("Times New Roman", 50);
   
         btnGameStart.setPrefSize(155, 30); 
@@ -74,7 +87,20 @@ public class OldMaidGUIDriver extends Application{
          Button btnGameStart = new Button ("Start Game");
          Button btnInstructions = new Button ("Instructions");
          
-         Font smallFont = Font.font("Times New Roman", 25);
+         btnGameStart.setStyle(
+         		"-fx-background-color: white; " +
+         	    "-fx-border-color: black; " +
+         	    "-fx-border-width: 2;" +
+         	    "-fx-text-fill:steelblue;"
+         );
+         btnInstructions.setStyle(
+         		"-fx-background-color: white; " +
+         	    "-fx-border-color: black; " +
+         	    "-fx-border-width: 2;" +
+         	    "-fx-text-fill:steelblue;"
+         );
+         
+         Font smallFont = Font.font("Times New Roman", 20);
          Font bigFont = Font.font("Times New Roman", 50);
    
          btnGameStart.setPrefSize(155, 20); 
@@ -111,6 +137,13 @@ public class OldMaidGUIDriver extends Application{
         Label instructions = new Label ("The first player draws one card from their opponent and discards any\nresulting pair. That player then offers their hand to the next player.\nPlay continues this way until only one unpaired card remains and \nwhoever holds it is the Old Maid. Have fun!");
         Button btnGameStart = new Button ("Start Game");
         
+        btnGameStart.setStyle(
+        		"-fx-background-color: white; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:steelblue;"
+        );
+        
         Font smallFont = Font.font("Times New Roman", 16);
         Font bigFont = Font.font("Times New Roman", 50);
         
@@ -142,6 +175,33 @@ public class OldMaidGUIDriver extends Application{
         Button btnRemoveDoubles = new Button ("Remove doubles");
         Button btnEndTurn = new Button ("End turn");
         Button btnQuitGame = new Button ("Quit game");
+        
+        btnDrawOpponent.setStyle(
+         		"-fx-background-color: white; " +
+         	    "-fx-border-color: black; " +
+         	    "-fx-border-width: 2;" +
+         	    "-fx-text-fill:steelblue;"
+         );
+         btnRemoveDoubles.setStyle(
+         		"-fx-background-color: white; " +
+         	    "-fx-border-color: black; " +
+         	    "-fx-border-width: 2;" +
+         	    "-fx-text-fill:steelblue;"
+         );
+         btnEndTurn.setStyle(
+          		"-fx-background-color: white; " +
+          	    "-fx-border-color: black; " +
+          	    "-fx-border-width: 2;" +
+          	    "-fx-text-fill:steelblue;"
+          );
+          btnQuitGame.setStyle(
+          		"-fx-background-color: white; " +
+          	    "-fx-border-color: black; " +
+          	    "-fx-border-width: 2;" +
+          	    "-fx-text-fill:steelblue;"
+          );
+          
+         
         
         Font smallFont = Font.font("Times New Roman", 15);
         Font bigFont = Font.font("Times New Roman", 20);

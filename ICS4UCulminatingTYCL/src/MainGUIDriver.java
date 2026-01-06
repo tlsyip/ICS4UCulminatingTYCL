@@ -18,12 +18,14 @@ public class MainGUIDriver extends Application{
         btnGameType1.setStyle(
         		"-fx-background-color: lightsteelblue; " +
         	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;"
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill: white;" 
         );
         btnGameType2.setStyle(
         		"-fx-background-color: moccasin; " +
         	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;"
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill: darkolivegreen;"
         );
         
         Font smallFont = Font.font("Times New Roman", 25);
