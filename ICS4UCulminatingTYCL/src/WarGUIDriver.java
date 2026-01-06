@@ -35,7 +35,11 @@ public class WarGUIDriver extends Application{
 
     private static Label playerDeckSize;
     private static Label opponentDeckSize;
-    
+    /*
+     * Creates and shows main menu 
+     * @param stage main JavaFx stage 
+     * @throws Exception ifJavaFx cannot initialize application
+     */
     public void start (Stage stage) throws Exception {
         playerDeckSize = new Label("");
         opponentDeckSize = new Label("");
@@ -75,6 +79,11 @@ public class WarGUIDriver extends Application{
         stage.setScene(scene);
         stage.show();
     }
+    /*
+     * Creates the main menu for application.
+     * @param stage main JavaFx stage used for switching scenes 
+     * @return a Scene containing the main menu 
+     */
 
     public static Scene startScene (Stage stage) {
         playerDeckSize = new Label("");
@@ -113,6 +122,11 @@ public class WarGUIDriver extends Application{
 
         return scene;
     }
+    /*
+     * creates the instructions describing rules of War.
+     * @param stage main JavaFx stage used for switching scenes
+     * @return a Scene containing instructions and start button 
+     */
 
     public static Scene instructionsScene (Stage stage){
         Label title = new Label ("~~~~Instructions~~~~");
@@ -141,6 +155,13 @@ public class WarGUIDriver extends Application{
 
         return scene;
     }
+    /*
+     * creates the game scene and make a new game state. 
+     * controls the flip, nextround, quit
+     * deals with a new deck
+     * @param stage main JavaFx stage used for switching scenes
+     * @return a Scene containing the main gameplay
+     */
     public static Scene gameScene (Stage stage){
         Label optionsMenu = new Label ("~~~Options Menu~~~");
         Label errorMessage = new Label ("");
@@ -218,6 +239,11 @@ public class WarGUIDriver extends Application{
         return scene;
       
      }
+    /*
+     * renders a hand onto target using car back images
+     * @param hand the Hand to render
+     * @param pane the Pane to draw into
+     */
 
      private static void renderHand(Hand hand, Pane pane){
         pane.getChildren().clear();
@@ -249,6 +275,7 @@ public class WarGUIDriver extends Application{
             }
         }
     }
+    
 
      private static Pane createCardNode(Card card, double width, double height, String side){
 
