@@ -48,7 +48,20 @@ public class WarGUIDriver extends Application{
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        Font smallFont = Font.font("Times New Roman", 25);
+        btnGameStart.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        btnInstructions.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        Font smallFont = Font.font("Times New Roman", 20);
         Font bigFont = Font.font("Times New Roman", 50);
         
         btnGameStart.setPrefSize(155, 30); 
@@ -93,7 +106,20 @@ public class WarGUIDriver extends Application{
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        Font smallFont = Font.font("Times New Roman", 25);
+        btnGameStart.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        btnInstructions.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        Font smallFont = Font.font("Times New Roman", 20);
         Font bigFont = Font.font("Times New Roman", 50);
         
         btnGameStart.setPrefSize(155, 30); 
@@ -133,6 +159,14 @@ public class WarGUIDriver extends Application{
         Label instructions = new Label ("Simultaneously flip your top card; the higher card wins both and the\nplayer who winns adds both cards to their pile. Ties trigger a 'War' where \nplayers lay three cards down (higher card wins all). Play goes on until one \nplayer has all the cards, using 2 as the lowest value card and Ace as the \nhighest. Have fun!");
         Button btnGameStart = new Button ("Start Game");
         
+        btnGameStart.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+       
+        
         // Create a layout object
         VBox layout = new VBox(10);
         layout.getChildren().addAll(title, instructions, btnGameStart);
@@ -170,6 +204,25 @@ public class WarGUIDriver extends Application{
         Button btnQuitGame= new Button("Quit Game");
         Font smallFont = Font.font("Times New Roman", 15);
         Font bigFont = Font.font("Times New Roman", 20);
+        
+        btnFlipCard.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        btnNextRound.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        btnQuitGame.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
             
         btnQuitGame.setFont(smallFont); 
         errorMessage.setFont(smallFont); 
@@ -275,8 +328,14 @@ public class WarGUIDriver extends Application{
             }
         }
     }
-    
-
+     /*
+      *create visual pictures of cards 
+      * @param card the card to display
+      * @param width the width of the card
+      * @param height the height of the card
+      * @param side the side of the card 
+      * @return a Pane with card images 
+      */
      private static Pane createCardNode(Card card, double width, double height, String side){
 
         Pane container = new Pane();
@@ -309,7 +368,8 @@ public class WarGUIDriver extends Application{
         }
         return container;
 
-    }  
+    } 
+     
 
     public static void flipCard(Stage stage){
         handPane.getChildren().clear();
