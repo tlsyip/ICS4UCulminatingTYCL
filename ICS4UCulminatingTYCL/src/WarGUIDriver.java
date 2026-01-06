@@ -444,6 +444,9 @@ public class WarGUIDriver extends Application{
         }
         checkGameOver(stage);
         playerCurrCard.setStatus(3);
+        while (tempHand.getSize()>0) {
+        	tempHand.removeCard(0);
+        }
     }
 
     private static Pane createFrontCardNode(Card card, double width, double height){
