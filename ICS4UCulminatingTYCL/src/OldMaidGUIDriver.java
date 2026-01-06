@@ -13,17 +13,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.util.Arrays; 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Collections;
 
 public class OldMaidGUIDriver extends Application{
-        private static Scanner input = new Scanner(System.in);
-        private static boolean playerTurnStatus = true;
-        private static boolean opponentTurnStatus = false;
         private static boolean alreadyDrawn = false;
         private static boolean doublesRemoved = false;
         private static Pane handPane;
@@ -78,7 +70,6 @@ public class OldMaidGUIDriver extends Application{
     }
     
     public static Scene startScene (Stage stage) {
-    	 deck = deck.resetDeck();
     	 Label title = new Label ("~~~~Old Maid~~~~");
          Button btnGameStart = new Button ("Start Game");
          Button btnInstructions = new Button ("Instructions");
@@ -166,9 +157,10 @@ public class OldMaidGUIDriver extends Application{
         btnQuitGame.setFont(smallFont); 
         errorMessage.setFont(smallFont); 
         optionsMenu.setFont(bigFont); 
+        errorMessage.setTextFill(Color.RED);
 
         // Create a layout object
-        VBox layout = new VBox(5);
+        VBox layout = new VBox(1);
         layout.getChildren().addAll(optionsMenu, btnDrawOpponent, btnRemoveDoubles, btnEndTurn, btnQuitGame, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
@@ -184,28 +176,7 @@ public class OldMaidGUIDriver extends Application{
         handPane.setPrefSize(600,200);
         oppPane.setPrefSize(600,200);
 
-        deck.shuffleDeck();
-        
-        if (oldMaidCard.getSize()>1) {
-        	oldMaidCard.removeCard(0);
-        }
-
-        if (Math.random() <= 0.5) {
-            deck.deal(25, hand1);
-            deck.deal(26, hand2);
-            deck.deal(1, oldMaidCard);
-            
-        }
-        else {
-            deck.deal(26, hand1);
-            deck.deal(25, hand2);
-            deck.deal(1, oldMaidCard);
-           
-        }
-        
-
-        hand1.removeDoubles();
-        hand2.removeDoubles();
+        resetGame();
         renderHand(hand1, handPane);
         renderHand(hand2, oppPane);
         layout.getChildren().addAll(oppPane, handPane);
@@ -221,6 +192,7 @@ public class OldMaidGUIDriver extends Application{
               //  hand1.displayHand();
                 renderHand(hand1, handPane);
                 renderHand(hand2, oppPane);
+                System.out.println("Drawed from opponent.");
             } 
             else {
                 errorMessage.setText("You already picked from your opponent.");
@@ -235,22 +207,25 @@ public class OldMaidGUIDriver extends Application{
                 checkGameOver(stage);
                 renderHand(hand1, handPane);
                 renderHand(hand2, oppPane);
+                System.out.println("Removed doubles.");
             }
             else {
                 errorMessage.setText("All your doubles are removed.");
             }
         });
         btnEndTurn.setOnAction(e -> {
+        	System.out.println("Turn Ended");
             errorMessage.setText("");
-            playerTurnStatus = false;
-            opponentTurnStatus = true;
             errorMessage.setText("Opponent Turn...");
             opponentTurn(stage);
             renderHand(hand1, handPane);
             renderHand(hand2, oppPane);
             errorMessage.setText("Opponent Turn Finished.");
         });
-        btnQuitGame.setOnAction(e -> System.exit(0));
+        btnQuitGame.setOnAction(e -> {
+        	System.out.println("Returning to Main Menu...");
+        	stage.setScene(MainGUIDriver.startScene(stage));
+        });
         return scene;
     }
     
@@ -277,7 +252,6 @@ public class OldMaidGUIDriver extends Application{
         txt.setY(25);
 
         String suit= card.getSuit().trim();
-         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
         if (suit.contains("heart") || suit.contains("diamond")) {
             txt.setFill(Color.RED);
         } else {
@@ -314,7 +288,6 @@ public class OldMaidGUIDriver extends Application{
         txt.setY(25);
 
         String suit= card.getSuit().trim();
-         System.out.println("DEBUG suit from getSuit(): [" + suit + "], card: " + card.toString());
         if (suit.contains("heart") || suit.contains("diamond")) {
             txt.setFill(Color.RED);
         } else {
@@ -338,7 +311,7 @@ public class OldMaidGUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane);
         btnMainMenu.setOnAction(e ->  {
-        	stage.setScene(startScene(stage));
+        	stage.setScene(MainGUIDriver.startScene(stage));
         	oldMaidCard.removeCard(0);
         });
         layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane, btnMainMenu);
@@ -360,7 +333,7 @@ public class OldMaidGUIDriver extends Application{
         layout.setAlignment(Pos.CENTER);
         renderHand(oldMaidCard, finalPane); 
         btnMainMenu.setOnAction(e ->  {
-        	stage.setScene(startScene(stage));
+        	stage.setScene(MainGUIDriver.startScene(stage));
         	oldMaidCard.removeCard(0);
         });
         layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane, btnMainMenu);
@@ -377,7 +350,7 @@ public class OldMaidGUIDriver extends Application{
 
         double startX = 30;
         double startY = 30;
-        double oppStartY = 0;
+        double oppStartY = 10;
 
         if (hand.getName().equals("hand1")) {
 	        for(int i=0;i<hand.getSize(); i++){
@@ -423,8 +396,6 @@ public class OldMaidGUIDriver extends Application{
         // checks if the opponent is out of cards
         checkGameOver(stage);
         System.out.println("Opponent turn finished.\nYour turn!");
-        opponentTurnStatus = false;
-        playerTurnStatus = true;
         alreadyDrawn = false;
         doublesRemoved = false;
     }
@@ -436,14 +407,39 @@ public class OldMaidGUIDriver extends Application{
         
         // checks if opponent has lost
         if(p1==0){
-            System.out.println("You got rid of all your cards! Your opponent is the Old Maid!");
+            System.out.println("You Win! You got rid of all your cards! Your opponent is the Old Maid!");
             endScenePlayerWin(stage);
         }
         // checks if user has lost
         else if(p2==0){
-            System.out.println("Your opponent got rid of all their cards. You are the Old Maid!");
+            System.out.println("You Lost! Your opponent got rid of all their cards. You are the Old Maid!");
             endScenePlayerLose(stage);
         }
+    }
+    
+    private static void resetGame() {
+		deck = new Deck();
+		hand1 = new Hand("hand1");
+		hand2 = new Hand("hand2");
+		oldMaidCard = new Hand ("oldMaidCard");
+		deck.shuffleDeck();
+		
+    	if (Math.random() <= 0.5) {
+            deck.deal(25, hand1);
+            deck.deal(26, hand2);
+            deck.deal(1, oldMaidCard);
+            
+        }
+        else {
+            deck.deal(26, hand1);
+            deck.deal(25, hand2);
+            deck.deal(1, oldMaidCard);
+           
+        }
+        
+
+        hand1.removeDoubles();
+        hand2.removeDoubles();
     }
 
     public static void main(String [] args) {

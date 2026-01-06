@@ -64,17 +64,21 @@ public class Card {
         return status;
     }
     
+    public void setStatus(int s) {
+    	status = s;
+    }
+    
     public void compare(Card c2){
         if(this.rank>c2.getRank()){
-            System.out.println("Big");
+            System.out.println("Your card is bigger.");
             status = 0;
         }
         else if(this.rank<c2.getRank()){
-            System.out.println("Small");
+            System.out.println("Your card is smaller.");
             status = 1;
         }
         else if(this.rank==c2.getRank()){
-            System.out.println("Equal");
+            System.out.println("Your cards are equal.");
             status = 2;
         }
     }

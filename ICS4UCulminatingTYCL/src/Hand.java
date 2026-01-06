@@ -30,7 +30,7 @@ public class Hand {
     * Displays the current hand
     */
     public void displayHand() {
-        System.out.println("\nYour current hand: " + cards);
+        System.out.println(name + cards);
     }
 
     /** 
