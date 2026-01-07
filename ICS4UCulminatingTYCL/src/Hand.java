@@ -40,6 +40,10 @@ public class Hand {
         Collections.shuffle(cards);
     }
     
+    /**
+     * Returns the name of the hand
+     * @return String name of the Hand
+     */
     public String getName() {
         return name;
     }
@@ -73,11 +77,17 @@ public class Hand {
     /**
     * Helper method to remove a card at a given index
     * @param int index - index of the card being removed
-    * @return removing the card
+    * @return Card that is removed
     */
     public Card removeCard(int index) {
         return cards.remove(index);
     }
+    
+    /**
+     * Gets the card at a given index
+     * @param int - index
+     * @return Card that was gotten
+     */
     public Card getCard(int index){
         return cards.get(index);
     }
@@ -95,9 +105,5 @@ public class Hand {
         Card stolen = h.removeCard(randomCard);
         addCard(stolen);
     }
- 
- 
-
-
     
 }

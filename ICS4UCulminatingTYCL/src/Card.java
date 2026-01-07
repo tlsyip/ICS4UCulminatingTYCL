@@ -36,11 +36,19 @@ public class Card {
     public String getValue () {
         return value;
     }
-
+    
+    /**
+     * Returns the front image of the card
+     * @return Image of the front of the card
+     */
     public Image getFrontImg() {
     	return frontImg;
     }
 
+    /**
+     * Returns the back image of the card
+     * @return Image of the back of the card
+     */
     public Image getBackImg() {
     	return backImg;
     }
@@ -52,22 +60,43 @@ public class Card {
         return suit + value;
     }
     
+    /**
+     * Returns the suit of the card
+     * @return String of the suit
+     */
     public String getSuit(){
         return suit; 
     }
-
+    
+    /**
+     * Returns the rank of the card
+     * @return int value of the rank
+     */
     public int getRank(){
         return rank;
     }
 
+    /**
+     * Returns the status of the card (0 if the card is bigger, 1 if smaller and 2 if tied)
+     * @return int of the status
+     */
     public int getStatus() {
         return status;
     }
     
+    /**
+     * Sets the status of the card
+     * @param int s - status
+     */
     public void setStatus(int s) {
     	status = s;
     }
     
+    /**
+     * Compares this card to another card
+     * @param Card c2 - card being compared to
+     */
+   
     public void compare(Card c2){
         if(this.rank>c2.getRank()){
             System.out.println("Your card is bigger.");
