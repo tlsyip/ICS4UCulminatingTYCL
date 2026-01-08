@@ -9,9 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /*
@@ -27,7 +25,6 @@ public class WarGUIDriver extends Application{
     private static Deck deck = new Deck();
     private static Pane handPane;
     private static Pane oppPane;
-    private static Pane finalPane;
 
     private static Card playerCurrCard;
     private static Card opponentCurrCard;
@@ -40,42 +37,26 @@ public class WarGUIDriver extends Application{
 
     private static Label playerDeckSize;
     private static Label opponentDeckSize;
+    
     /*
-     * Creates and shows main menu 
-     * @param stage main JavaFx stage 
+     * Starting screen of the game
+     * @param Stage stage - to display graphics
      * @throws Exception ifJavaFx cannot initialize application
      */
     public void start (Stage stage) throws Exception {
+    	//creates font
+        Font smallFont = Font.font("Times New Roman", 20);
+        Font bigFont = Font.font("Times New Roman", 50);
+    	
         playerDeckSize = new Label("");
         opponentDeckSize = new Label("");
         
         Label title = new Label ("~~~~War~~~~");
+        
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        btnGameStart.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-        btnInstructions.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-        
-        Font smallFont = Font.font("Times New Roman", 20);
-        Font bigFont = Font.font("Times New Roman", 50);
-        
-        btnGameStart.setPrefSize(155, 30); 
-        btnInstructions.setPrefSize(155, 30); 
-        title.setFont(bigFont);
-        btnGameStart.setFont(smallFont);
-        btnInstructions.setFont(smallFont);
-  
-
+        // create the object to hold the buttons
         HBox buttonHolder = new HBox(20);
         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
         buttonHolder.setAlignment(Pos.CENTER);
@@ -84,55 +65,70 @@ public class WarGUIDriver extends Application{
         VBox layout = new VBox(30);
         layout.getChildren().addAll(title, buttonHolder);
         layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color:moccasin");
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.MOCCASIN);
         Scene scene1 = gameScene(stage);  
         Scene scene2 = instructionsScene(stage);
-
+        
+        // button to start the game
+        // set the size of the button
+        btnGameStart.setPrefSize(155, 30); 
+        // set the font of the button
+        btnGameStart.setFont(smallFont);
+        // enters the game
         btnGameStart.setOnAction(e -> stage.setScene(scene1));
+        // set the appearance of the button
+        btnGameStart.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        // set the size of the button
+        btnInstructions.setPrefSize(155, 30); 
+        // set the font of the button
+        btnInstructions.setFont(smallFont);
+        // enters the instructions
         btnInstructions.setOnAction(e -> stage.setScene(scene2));
+        // set the appearance of the button
+        btnInstructions.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        // set the font of the title
+        title.setFont(bigFont);
+  
+        // creates brown background
+        layout.setStyle("-fx-background-color:moccasin");
+        scene.setFill(Color.MOCCASIN);
 
         stage.setScene(scene);
         stage.show();
     }
+    
     /*
-     * Creates the main menu for application.
-     * @param stage main JavaFx stage used for switching scenes 
-     * @return a Scene containing the main menu 
+     * Recreation of the starting screen of the game
+     * @param Stage stage - to display graphics
+     * @throws Exception ifJavaFx cannot initialize application
      */
-
     public static Scene startScene (Stage stage) {
+    	//creates font
+        Font smallFont = Font.font("Times New Roman", 20);
+        Font bigFont = Font.font("Times New Roman", 50);
+    	
         playerDeckSize = new Label("");
         opponentDeckSize = new Label("");
         
         Label title = new Label ("~~~~War~~~~");
+        
         Button btnGameStart = new Button ("Start Game");
         Button btnInstructions = new Button ("Instructions");
         
-        btnGameStart.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-        btnInstructions.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-        
-        Font smallFont = Font.font("Times New Roman", 20);
-        Font bigFont = Font.font("Times New Roman", 50);
-        
-        btnGameStart.setPrefSize(155, 30); 
-        btnInstructions.setPrefSize(155, 30); 
-        title.setFont(bigFont);
-        btnGameStart.setFont(smallFont);
-        btnInstructions.setFont(smallFont);
-
+        // create the object to hold the buttons
         HBox buttonHolder = new HBox(20);
         buttonHolder.getChildren().addAll(btnGameStart, btnInstructions);
         buttonHolder.setAlignment(Pos.CENTER);
@@ -141,129 +137,134 @@ public class WarGUIDriver extends Application{
         VBox layout = new VBox(30);
         layout.getChildren().addAll(title, buttonHolder);
         layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color:moccasin");
 
         Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.MOCCASIN);
         Scene scene1 = gameScene(stage);  
         Scene scene2 = instructionsScene(stage);
-
+        
+        // button to start the game
+        // set the size of the button
+        btnGameStart.setPrefSize(155, 30); 
+        // set the font of the button
+        btnGameStart.setFont(smallFont);
+        // enters the game
         btnGameStart.setOnAction(e -> stage.setScene(scene1));
+        // set the appearance of the button
+        btnGameStart.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        // set the size of the button
+        btnInstructions.setPrefSize(155, 30); 
+        // set the font of the button
+        btnInstructions.setFont(smallFont);
+        // enters the instructions
         btnInstructions.setOnAction(e -> stage.setScene(scene2));
+        // set the appearance of the button
+        btnInstructions.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        // set the font of the title
+        title.setFont(bigFont);
+  
+        // creates brown background
+        layout.setStyle("-fx-background-color:moccasin");
+        scene.setFill(Color.MOCCASIN);
 
         return scene;
     }
+    
     /*
      * creates the instructions describing rules of War.
      * @param stage main JavaFx stage used for switching scenes
      * @return a Scene containing instructions and start button 
      */
-
-    public static Scene instructionsScene (Stage stage){
+    public static Scene instructionsScene (Stage stage){   
+    	// create fonts
+    	Font smallFont = Font.font("Times New Roman", 16);
+    	Font bigFont = Font.font("Times New Roman", 50);
+    	
         Label title = new Label ("~~~~Instructions~~~~");
         Label instructions = new Label ("Simultaneously flip your top card; the higher card wins both and the\nplayer who winns adds both cards to their pile. Ties trigger a 'War' where \nplayers lay three cards down (higher card wins all). Play goes on until one \nplayer has all the cards, using 2 as the lowest value card and Ace as the \nhighest. Have fun!");
+        
         Button btnGameStart = new Button ("Start Game");
         
+        // create a layout object
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(title, instructions, btnGameStart);
+        layout.setAlignment(Pos.CENTER);
+        
+        Scene scene = new Scene(layout, 500, 500);
+        
+        // button to enter the game
+        // set the font of the button
+        btnGameStart.setFont(smallFont);
+        // enters the game
+        btnGameStart.setOnAction(e -> stage.setScene(gameScene(stage)));
+        // set the appearance of the button
         btnGameStart.setStyle(
         		"-fx-background-color: darkolivegreen; " +
         	    "-fx-border-color: black; " +
         	    "-fx-border-width: 2;" +
         	    "-fx-text-fill:moccasin;"
         );
-       
         
-        // Create a layout object
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(title, instructions, btnGameStart);
-        layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color:moccasin");
-        
-        Font smallFont = Font.font("Times New Roman", 16);
-        Font bigFont = Font.font("Times New Roman", 50);
-        
+        // sets the font of the labels
         title.setFont(bigFont);
-        btnGameStart.setFont(smallFont);
         instructions.setFont(smallFont);
 
-        Scene scene = new Scene(layout, 500, 500);
+        // creates the brown background
+        layout.setStyle("-fx-background-color:moccasin");
         scene.setFill(Color.MOCCASIN);
         
-
-        btnGameStart.setOnAction(e -> stage.setScene(gameScene(stage)));
-        
-
         return scene;
     }
+    
     /*
-     * creates the game scene and make a new game state. 
-     * controls the flip, nextround, quit
-     * deals with a new deck
-     * @param stage main JavaFx stage used for switching scenes
-     * @return a Scene containing the main gameplay
+     * Creates the game scene and make a new game state. 
+     * Controls the flip, next round and quit buttons
+     * @param Stage stage - to display graphics
+     * @return a Scene containing the main game play
      */
-    public static Scene gameScene (Stage stage){
+    public static Scene gameScene (Stage stage){   
+    	// create fonts
+    	Font smallFont = Font.font("Times New Roman", 15);
+    	Font bigFont = Font.font("Times New Roman", 20);
+    	
         Label optionsMenu = new Label ("~~~Options Menu~~~");
         Label errorMessage = new Label ("");
+        
         Button btnFlipCard = new Button ("Flip card");      
         Button btnNextRound = new Button ("Next Round");
         Button btnQuitGame= new Button("Quit Game");
-        Font smallFont = Font.font("Times New Roman", 15);
-        Font bigFont = Font.font("Times New Roman", 20);
         
-        btnFlipCard.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-        btnNextRound.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-        btnQuitGame.setStyle(
-        		"-fx-background-color: darkolivegreen; " +
-        	    "-fx-border-color: black; " +
-        	    "-fx-border-width: 2;" +
-        	    "-fx-text-fill:moccasin;"
-        );
-            
-        btnQuitGame.setFont(smallFont); 
-        errorMessage.setFont(smallFont); 
-        optionsMenu.setFont(bigFont); 
-        btnFlipCard.setFont(smallFont);
-        btnNextRound.setFont(smallFont);
-        playerDeckSize.setFont(smallFont);
-        opponentDeckSize.setFont(smallFont);
-        errorMessage.setTextFill(Color.RED);
-        
-        btnFlipCard.setPrefSize(155, 20);        
-        btnNextRound.setPrefSize(155, 20);
-        btnQuitGame.setPrefSize(155, 20); 
-    
-     
-        // Create a layout object
+        // create a layout object
         VBox layout = new VBox(1);
         layout.getChildren().addAll(optionsMenu,btnFlipCard, btnNextRound, btnQuitGame, opponentDeckSize, playerDeckSize, errorMessage);
         layout.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setPadding(new Insets(15));
-        layout.setStyle("-fx-background-color:moccasin");
         
-
-        Scene scene = new Scene(layout, 500, 500);   
-        scene.setFill(Color.MOCCASIN);
-
+        Scene scene = new Scene(layout, 500, 500); 
+        
+        // creates the two panes to display both hands
         handPane = new Pane();
-        handPane.setPrefSize(600,200);
         oppPane = new Pane();
+        handPane.setPrefSize(600,200);
         oppPane.setPrefSize(600,200);
-        resetGame();
-  
-        renderHand(hand1, handPane);
-        renderHand(hand2, oppPane);
-        layout.getChildren().addAll(oppPane, handPane);
-
+        
+        // button to flip the card
+        // sets the size of the button
+        btnFlipCard.setPrefSize(155, 20);
+        // sets the font of the button
+        btnFlipCard.setFont(smallFont);
+        // flips the card
         btnFlipCard.setOnAction(e -> {
             errorMessage.setText("");
             if (!flipCard) {
@@ -272,9 +273,24 @@ public class WarGUIDriver extends Application{
                 nextRound = false;
             }
             else {
+            	// displays an error message if the user has already flipped the cards
                 errorMessage.setText("Card already flipped.");
             }
         });
+        // sets the appearance of the button
+        btnFlipCard.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        // button to enter the next round
+        // sets the size of the button
+        btnNextRound.setPrefSize(155, 20);
+        // sets the font of the button
+        btnNextRound.setFont(smallFont);
+        // enters the next round
         btnNextRound.setOnAction(e -> {
             if (!nextRound) {
                 errorMessage.setText("");
@@ -286,31 +302,134 @@ public class WarGUIDriver extends Application{
                 flipCard = false;
             }
             else {
+            	// displays an error message if the user has not flipped the card but is attempting to enter the next round
                 errorMessage.setText("Card not flipped yet.");
             }
         });
+        // sets the appearance of the button
+        btnNextRound.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+        
+        // button to quit the game
+        // sets the size of the button
+        btnQuitGame.setPrefSize(155, 20); 
+        // sets the font of the button
+        btnQuitGame.setFont(smallFont);
+        // returns to the main menu
         btnQuitGame.setOnAction(e -> {
         	System.out.println("Returning to Main Menu...");
         	stage.setScene(MainGUIDriver.startScene(stage));
         });
-    
+        // sets the appearance of the button
+        btnQuitGame.setStyle(
+        		"-fx-background-color: darkolivegreen; " +
+        	    "-fx-border-color: black; " +
+        	    "-fx-border-width: 2;" +
+        	    "-fx-text-fill:moccasin;"
+        );
+            
+        // sets the fonts of the labels
+        errorMessage.setFont(smallFont);
+        optionsMenu.setFont(bigFont); 
+        playerDeckSize.setFont(smallFont);
+        opponentDeckSize.setFont(smallFont);
+        //sets the error message to be red
+        errorMessage.setTextFill(Color.RED);
+        
+        // create a brown background
+        layout.setStyle("-fx-background-color:moccasin");       
+        scene.setFill(Color.MOCCASIN);
+
+        // creates a new game
+        resetGame();
+  
+        // renders both hands
+        renderHand(hand1, handPane);
+        renderHand(hand2, oppPane);
+        
+        layout.getChildren().addAll(oppPane, handPane);
         return scene;
       
      }
-    /*
-     * renders a hand onto target using car back images
-     * @param hand the Hand to render
-     * @param pane the Pane to draw into
+    
+     /**
+     * Create visual pictures of cards 
+     * @param Card card - the created
+     * @param double width - width of the card
+     * @param double height - height of the card
+     * @return Pane with back of card image
      */
-
+     private static Pane createCardNode(Card card, double width, double height, String side){
+   	   // creates a new pane to display the images
+       Pane container = new Pane();
+       
+       // gets the image of the back of the card
+       if (side.equals("back")) {
+           ImageView cardImage = new ImageView(card.getBackImg());
+           container.getChildren().add(cardImage);
+       }
+       // gets the image of the front of the card
+       else {
+           ImageView cardImage = new ImageView(card.getFrontImg());
+           container.getChildren().add(cardImage);
+       }
+       
+       return container;
+     } 
+     
+     /**
+      * Create the image of the front of the card
+      * @param Card card - the card created
+      * @param double width - width of the card
+      * @param double height - height of the card
+      * @return Pane with front of card images
+      */
+     private static Pane createFrontCardNode(Card card, double width, double height){
+    	 // creates a new pane to display the images
+         Pane container = new Pane();
+         // gets the image of the front of the card
+         ImageView cardImage = new ImageView(card.getFrontImg());
+         container.getChildren().add(cardImage);
+         
+         return container;
+     }  
+     
+     /**
+      * Create the image of the back of the card
+      * @param Card card - the created
+      * @param double width - width of the card
+      * @param double height - height of the card
+      * @return Pane with back of card image
+      */
+     private static Pane createBackCardNode(Card card, double width, double height){
+    	 // creates a new pane to display the images
+         Pane container = new Pane();
+         // gets the image of the back of the card
+         ImageView cardImage = new ImageView(card.getBackImg());
+         container.getChildren().add(cardImage);
+         
+         return container;
+     } 
+    
+     /**
+     * Renders a hand onto target using card back images
+     * @param Hand hand - to render
+     * @param Pane pane - to draw into
+     */
      private static void renderHand(Hand hand, Pane pane){
-        pane.getChildren().clear();
+    	 // clears the pane
+    	 pane.getChildren().clear();
         
-        double startX = 210;
-        double startY = 15;
-        double oppStartY = 10;
+    	 double startX = 210;
+    	 double startY = 15;
+    	 double oppStartY = 10;
 
-        if (hand.getName().equals("hand1")) {
+    	 // renders the users hand
+    	 if (hand.getName().equals("hand1")) {
 	        for(int i=0;i<hand.getSize(); i++){
 	            Card card= hand.getCard(i);
 	
@@ -320,8 +439,9 @@ public class WarGUIDriver extends Application{
 	            
 	            pane.getChildren().add(cardNode);
 	        }
-        }
-        if (hand.getName().equals("hand2")) {
+    	 }
+    	 // renders the opponent's hand
+    	 if (hand.getName().equals("hand2")) {
             for(int i=0;i<hand.getSize(); i++){
                 Card card= hand.getCard(i);
 
@@ -331,91 +451,125 @@ public class WarGUIDriver extends Application{
                 
                 pane.getChildren().add(cardNode);
             }
-        }
-    }
-     /*
-      *create visual pictures of cards 
-      * @param card the card to display
-      * @param width the width of the card
-      * @param height the height of the card
-      * @param side the side of the card 
-      * @return a Pane with card images 
-      */
-     private static Pane createCardNode(Card card, double width, double height, String side){
-
-        Pane container = new Pane();
-
-        Rectangle rect= new Rectangle(width,height);
-        rect.setArcWidth(10);
-        rect.setArcHeight(10);
-        rect.setFill(Color.WHITE);
-        rect.setStroke(Color.BLACK);
-
-        Text txt= new Text(card.toString());
-        txt.setFont(Font.font("Arial", 18));
-        txt.setX(10);
-        txt.setY(25);
-
-        String suit= card.getSuit().trim();
-        if (suit.contains("heart") || suit.contains("diamond")) {
-            txt.setFill(Color.RED);
-        } else {
-            txt.setFill(Color.BLACK);
-        }
-      //  container.getChildren().addAll(rect, txt); previous code
-        if (side.equals("back")) {
-            ImageView cardImage = new ImageView(card.getBackImg());
-            container.getChildren().add(cardImage);
-        }
-        else {
-            ImageView cardImage = new ImageView(card.getFrontImg());
-            container.getChildren().add(cardImage);
-        }
-        return container;
-
-    } 
+    	 }
+     }
      
-     /*
-      * flip the top card for players and compare them, if tied then
-      * "war" is activated. 
-      * @param stage the primary JavaFx stage
+     /**
+      * The end scene telling the user that they won
+      * @param Stage stage - to display the graphics
       */
-    public static void flipCard(Stage stage){
+     public static void endScenePlayerWin (Stage stage) {
+         Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
+         
+         Button btnMainMenu = new Button ("Return to Main Menu");
+         
+         // create a layout object
+         VBox layout = new VBox(10);
+         layout.setAlignment(Pos.CENTER);
+         layout.getChildren().addAll(winMessage, btnMainMenu);
+        
+         Scene scene = new Scene(layout, 500, 500);
+         
+         // button to return to the main menu
+         btnMainMenu.setPrefSize(200, 20);
+         btnMainMenu.setOnAction(e ->  {
+         	stage.setScene(MainGUIDriver.startScene(stage));
+         });
+         
+         // creates green background
+         layout.setStyle("-fx-background-color:palegreen");
+         scene.setFill(Color.PALEGREEN);
+         
+         // displays the graphics
+         stage.setScene(scene);
+         stage.show();
+     }
+     
+     /**
+      * The end scene telling the user that they lost
+      * @param Stage stage - to display graphics
+      */
+     public static void endScenePlayerLose (Stage stage) {
+         Label loseMessage = new Label ("Your opponent got rid of all their cards. You are the Old Maid!");
+         
+         Button btnMainMenu = new Button ("Return to Main Menu");
+         
+         // create a layout object
+         VBox layout = new VBox(10);
+         layout.setAlignment(Pos.CENTER);
+         layout.getChildren().addAll(loseMessage, btnMainMenu);    
+         
+         Scene scene = new Scene(layout, 500, 500);
+         
+         // button to return to the main menu
+         btnMainMenu.setPrefSize(200, 20);
+         btnMainMenu.setOnAction(e ->  {
+         	stage.setScene(MainGUIDriver.startScene(stage));
+         });
+         
+         // creates red background
+         layout.setStyle("-fx-background-color:lightcoral");
+         scene.setFill(Color.LIGHTCORAL);
+         
+         // displays the graphics
+         stage.setScene(scene);
+         stage.show();
+     }
+     
+      /**
+      * Flip the top card for players and compare them, if tied then "war" is activated 
+      * @param Stage stage - to display the graphics
+      */
+      public static void flipCard(Stage stage){
+    	// clears the pane
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
+        
+        Pane cardNode = createCardNode(playerCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
+        Pane oppCardNode = createCardNode(opponentCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
 
         double startX = 210;
         double startY = 15;
         double oppStartX = 210;
         double oppStartY = 10;
-
+        
+        // gets the current card from the top of the hand
         playerCurrCard = hand1.getCard(0);
         opponentCurrCard = hand2.getCard(0);
 
-        Pane cardNode = createCardNode(playerCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
-        Pane oppCardNode = createCardNode(opponentCurrCard, CARD_WIDTH,CARD_HEIGHT, "front");
         cardNode.setLayoutX(startX);
         cardNode.setLayoutY(startY);
         oppCardNode.setLayoutX(oppStartX);
         oppCardNode.setLayoutY(oppStartY);
+        
         handPane.getChildren().add(cardNode);
         oppPane.getChildren().add(oppCardNode);
+        
         System.out.println("Flipped card.");
+        // update the card counter
         updateCounter();
+        
+        // compares the two cards
         playerCurrCard.compare(opponentCurrCard);
+        
+        // checks if the game over
         checkGameOver(stage);
+        
+        // if the the cards are tied, enter a battle
         if (playerCurrCard.getStatus()==2) {
         	battle(stage);
         }
+        
+        // check if the game is over
         checkGameOver(stage);
     }
-    /*
-     * Allow the game to progress by awarding flipped cards to
-     * players who won the comparison, and then removes the cards
-     * from the top of each player's hand. 
+    
+     /**
+     * Allow the game to progress by awarding flipped cards to players who won the comparison, and then removes the flipped card
      */
-    public static void nextRound() {
+     public static void nextRound() {
     	System.out.println("Started next round.");
+    	// if the user won, add cards to the user's hand
         if (playerCurrCard.getStatus()==0) {
             hand1.addCard(opponentCurrCard);
             hand1.addCard(playerCurrCard);
@@ -423,6 +577,7 @@ public class WarGUIDriver extends Application{
             hand2.removeCard(0);
             updateCounter();
         }
+     // if the user won, add cards to the opponent's hand
         else if (playerCurrCard.getStatus()==1) {
             hand2.addCard(opponentCurrCard);
             hand2.addCard(playerCurrCard);
@@ -433,49 +588,58 @@ public class WarGUIDriver extends Application{
         else {
         	updateCounter();
         }
-    }
-    /*
-     * Check if either player run out of cards and then transition 
-     * to win/lose scene
-     * @param stage primary JavaFx stage used to set the end scene. 
-     */
-    private static void checkGameOver(Stage stage){
-        int p1 = hand1.getSize();
-        int p2 = hand2.getSize();    
-        // checks if opponent has lost
-        if(p1==0){
+     }
+     
+      /**
+      * Checks if the game is over
+      * @param Stage stage - to display graphics
+      */
+     private static void checkGameOver(Stage stage){
+    	 // checks both hand sizes
+         int p1 = hand1.getSize();
+         int p2 = hand2.getSize();    
+        
+         // checks if opponent has lost
+         if(p1==0){
             System.out.println("You Lost.");
             endScenePlayerLose(stage);
-        }
-        // checks if user has lost
-        else if(p2==0){
+         }
+         
+         // checks if user has lost
+         else if(p2==0){
             System.out.println("You Win.");
             endScenePlayerWin(stage);
         }
-    }
+     }
     
     /*
-     * Resolves a tied scenario by drawing three cards from each 
-     * player where two are displayed face down and one face up. 
-     * @param stage the primary JavaFx stage 
+     * Resolves a tied scenario by drawing three cards from each player where two are displayed face up and one face down 
+     * @param Stage stage - to display graphics
      */
     private static void battle(Stage stage) {
-        if (hand1.getSize() <= 3) {
-            checkGameOver(stage);
-            System.out.println("You lose, your opponent does not have enough cards for war.");
-            endScenePlayerLose(stage);
-            
-        }
-        if(hand2.getSize() <= 3){
+    	// checks if the user's hand size is too small for war
+        if (hand1.getSize() < 3) {
             checkGameOver(stage);
             System.out.println("You win, your opponent does not have enough cards for war.");
             endScenePlayerWin(stage);
+            
         }
+        // checks if the opponent's hand size is too small for war
+        if(hand2.getSize() < 3){
+            checkGameOver(stage);
+            System.out.println("You lose, your opponent does not have enough cards for war.");
+            endScenePlayerLose(stage);
+        }
+        
+        // clears the pane
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
+        
         double startX = 30;
         double startY = 30;
         double oppStartY = 30;
+        
+        // creates the user's battle hand
 	    for(int i=0;i<3; i++){
             Card card = hand1.removeCard(0);
             tempHand.addCard(card);
@@ -493,6 +657,8 @@ public class WarGUIDriver extends Application{
                 playerCurrCard = card;
             }  
 	    }
+	    
+	    // creates the opponent's battle hand
 	    for(int j=0;j<3; j++){
 	            Card card = hand2.removeCard(0);
 	            tempHand.addCard(card);
@@ -510,6 +676,8 @@ public class WarGUIDriver extends Application{
                 opponentCurrCard = card;
             }  
         }
+	    
+	    // compares the two cards
         playerCurrCard.compare(opponentCurrCard);
         if (playerCurrCard.getStatus()==0) {
         	for (int i = 0; i < tempHand.getSize(); i++) {
@@ -524,157 +692,53 @@ public class WarGUIDriver extends Application{
         else if (playerCurrCard.getStatus()==2) {
             battle(stage);
         }
+        
+        // checks if either hand is out of cards
         checkGameOver(stage);
+        
+        // changes the status to indicate a completed battle
         playerCurrCard.setStatus(3);
+        
+        // clears the temporary hand
         while (tempHand.getSize()>0) {
         	tempHand.removeCard(0);
         }
     }
-    /*
-     * Create a card node that shows the front image of the card.
-     * @param card the card to display
-     * @param width the width of the card
-     * @param height the height of the card
-     * @return a Pane with the card front image
-     */
-    private static Pane createFrontCardNode(Card card, double width, double height){
-
-        Pane container = new Pane();
-
-        Rectangle rect= new Rectangle(width,height);
-        rect.setArcWidth(10);
-        rect.setArcHeight(10);
-        rect.setFill(Color.WHITE);
-        rect.setStroke(Color.BLACK);
-
-        Text txt= new Text(card.toString());
-        txt.setFont(Font.font("Arial", 18));
-        txt.setX(10);
-        txt.setY(25);
-
-        String suit= card.getSuit().trim();
-        if (suit.contains("heart") || suit.contains("diamond")) {
-            txt.setFill(Color.RED);
-        } else {
-            txt.setFill(Color.BLACK);
-        }
-      //  container.getChildren().addAll(rect, txt); previous code
-        ImageView cardImage = new ImageView(card.getFrontImg());
-        container.getChildren().add(cardImage);
-        return container;
-
-    }  
     
-   /**
-     * create a card node showing the back image of the card.
-     * @param card the card to display
-     * @param width the width of the card
-     * @param height the height of the card
-     * @return Pane with back of card image
+     /**
+     *  Update the counters for player and opponent card count.
      */
-    private static Pane createBackCardNode(Card card, double width, double height){
-
-        Pane container = new Pane();
-
-        Rectangle rect= new Rectangle(width,height);
-        rect.setArcWidth(10);
-        rect.setArcHeight(10);
-        rect.setFill(Color.WHITE);
-        rect.setStroke(Color.BLACK);
-
-        Text txt= new Text(card.toString());
-        txt.setFont(Font.font("Arial", 18));
-        txt.setX(10);
-        txt.setY(25);
-
-        String suit= card.getSuit().trim();
-        if (suit.contains("heart") || suit.contains("diamond")) {
-            txt.setFill(Color.RED);
-        } else {
-            txt.setFill(Color.BLACK);
-        }
-      //  container.getChildren().addAll(rect, txt); previous code
-        ImageView cardImage = new ImageView(card.getBackImg());
-        container.getChildren().add(cardImage);
-        return container;
-
-    } 
-    /*
-     *  Update the UI counters for player and opponent card count. 
-     */
-    public static void updateCounter(){
-        playerDeckSize.setText("Your # of Cards: " + Integer.toString(hand1.getSize()));
-        opponentDeckSize.setText("Opponent # of Cards: " + Integer.toString(hand2.getSize()));
-    }
+     public static void updateCounter(){
+    	 // player card count
+         playerDeckSize.setText("Your # of Cards: " + Integer.toString(hand1.getSize()));
+         // opponent card count
+         opponentDeckSize.setText("Opponent # of Cards: " + Integer.toString(hand2.getSize()));
+     }
     
-    /*
-     *  Displays the end-of-game "win" scene.
-     * @param stage the primary JavaFx stage where the scene will be 
-     * shown.
-     */
-     public static void endScenePlayerWin (Stage stage) {
-       Label winMessage = new Label ("You Win! You have won the war!");
-        Button btnMainMenu = new Button ("Return to Main Menu");
-        btnMainMenu.setPrefSize(200, 20);
-        // Create a layout object
-        VBox layout = new VBox(10);
-        finalPane = new Pane();
-        layout.setAlignment(Pos.CENTER);
-        btnMainMenu.setOnAction(e ->  {
-        	stage.setScene(MainGUIDriver.startScene(stage));
-        });
-        layout.getChildren().addAll(winMessage, finalPane, btnMainMenu);
-        layout.setStyle("-fx-background-color:palegreen");
-        Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.PALEGREEN);
-        stage.setScene(scene);
-        stage.show();
-    }
     
-     /*
-      *  Display end of game "lose" scene.
-      * @param stage the primary JavaFx stage where the scene will be
-      * shown. 
-      */
-    public static void endScenePlayerLose (Stage stage) {
-        Label loseMessage = new Label ("You Lost! Your opponent has won the war!");
-        Button btnMainMenu = new Button ("Return to Main Menu");
-        btnMainMenu.setPrefSize(200, 20);
-        // Create a layout object
-        VBox layout = new VBox(10);
-        finalPane = new Pane();
-        layout.setAlignment(Pos.CENTER);
-        btnMainMenu.setOnAction(e ->  {
-        	stage.setScene(MainGUIDriver.startScene(stage));
-        });
-        layout.getChildren().addAll(loseMessage, finalPane, btnMainMenu);
-        layout.setStyle("-fx-background-color:lightcoral");
-        Scene scene = new Scene(layout, 500, 500);
-        scene.setFill(Color.LIGHTCORAL);
-        stage.setScene(scene);
-        stage.show();
-    }
-    /*
-     * Reset the game state for a new round 
+     /**
+     * Resets the game to be played again
      */
-    private static void resetGame() {
+     private static void resetGame() {
     	 flipCard = false;
     	 nextRound = true;
+    	
     	 deck = new Deck();
     	 hand1 = new Hand("hand1");
     	 hand2 = new Hand("hand2");
     	 tempHand = new Hand("tempHand");
+    	 
+    	 // shuffles the deck before dealing cards
     	 deck.shuffleDeck();
          
+    	 // deals the cards evenly to both hands
          deck.deal(26, hand1);
          deck.deal(26, hand2);
+         
+         // updates the counter
          updateCounter();
-    }
+     }
     
-    /*
-     *  launches the JavaFx application 
-     * @param args command-line arguments.
-     */
     public static void main(String [] args) {
         launch(args);
     } 
