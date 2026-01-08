@@ -459,9 +459,22 @@ public class WarGUIDriver extends Application{
       * @param Stage stage - to display the graphics
       */
      public static void endScenePlayerWin (Stage stage) {
+    	 Font smallFont = Font.font("Times New Roman", 16);
+    	 
          Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
          
          Button btnMainMenu = new Button ("Return to Main Menu");
+         winMessage.setFont(smallFont);
+         
+         btnMainMenu.setFont(smallFont);
+         
+         btnMainMenu.setStyle(
+     	 		"-fx-background-color: lavenderblush; " +
+      	 	    "-fx-border-color: black; " +
+      	 	    "-fx-border-width: 2;" +
+      	 	    "-fx-text-fill:black;"
+             );
+         
          
          // create a layout object
          VBox layout = new VBox(10);

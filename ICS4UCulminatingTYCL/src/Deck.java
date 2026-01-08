@@ -15,13 +15,6 @@ public class Deck {
     */
     Deck () {
         deck = new ArrayList <Card>();
-        
-		/*
-		 * String[] suits = {"♠️", "♥️", "♣️", "♦️"}; String[] names = {"A", "2", "3",
-		 * "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}; for (String suit : suits)
-		 * { for (int i = 0; i<names.length; i++) { deck.add(new Card(suit, names[i]));
-		 * } }
-		 */
 
         String suit = "suit";
 		// create all 12 cards for each suit

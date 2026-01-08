@@ -465,10 +465,26 @@ public class OldMaidGUIDriver extends Application{
      * @param Stage stage - to display the graphics
      */
     public static void endScenePlayerWin (Stage stage) {
+    	
+    	Font smallFont = Font.font("Times New Roman", 16);
+        
+        
         Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
         Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
         
+        winMessage.setFont(smallFont);
+        lblOldMaidCard.setFont(smallFont);
+        
+        
         Button btnMainMenu = new Button ("Return to Main Menu");
+        btnMainMenu.setFont(smallFont);
+        
+        btnMainMenu.setStyle(
+    	 		"-fx-background-color: lavenderblush; " +
+     	 	    "-fx-border-color: black; " +
+     	 	    "-fx-border-width: 2;" +
+     	 	    "-fx-text-fill:black;"
+            );
         
         // Create a pane to display the Old Maid Card
         finalPane = new Pane();
@@ -504,10 +520,23 @@ public class OldMaidGUIDriver extends Application{
      * @param Stage stage - to display graphics
      */
     public static void endScenePlayerLose (Stage stage) {
+    	
+    	Font smallFont = Font.font("Times New Roman", 16);
+    	
         Label loseMessage = new Label ("Your opponent got rid of all their cards. You are the Old Maid!");
         Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
         
+        loseMessage.setFont(smallFont);
+        lblOldMaidCard.setFont(smallFont);
+        
         Button btnMainMenu = new Button ("Return to Main Menu");
+        
+        btnMainMenu.setStyle(
+    	 		"-fx-background-color: lavenderblush; " +
+     	 	    "-fx-border-color: black; " +
+     	 	    "-fx-border-width: 2;" +
+     	 	    "-fx-text-fill:black;"
+            );
         
         // create a pane to display the Old Maid Card
         finalPane = new Pane();
