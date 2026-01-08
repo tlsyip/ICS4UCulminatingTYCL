@@ -14,7 +14,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
+/*
+ * JavaFx GUIDriver for game "War".
+ * This class will handle display of main menu, instructions, and game play scenes.
+ * It will also handle UI state such as flip card and next round.
+ * After the game ends, it will display whether the player lose or win. 
+ */
 public class WarGUIDriver extends Application{
     private static Hand hand1 = new Hand("hand1");
     private static Hand hand2 = new Hand("hand2");
@@ -370,7 +375,11 @@ public class WarGUIDriver extends Application{
 
     } 
      
-
+     /*
+      * flip the top card for players and compare them, if tied then
+      * "war" is activated. 
+      * @param stage the primary JavaFx stage
+      */
     public static void flipCard(Stage stage){
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
@@ -400,7 +409,11 @@ public class WarGUIDriver extends Application{
         }
         checkGameOver(stage);
     }
-
+    /*
+     * Allow the game to progress by awarding flipped cards to
+     * players who won the comparison, and then removes the cards
+     * from the top of each player's hand. 
+     */
     public static void nextRound() {
     	System.out.println("Started next round.");
         if (playerCurrCard.getStatus()==0) {
@@ -421,7 +434,11 @@ public class WarGUIDriver extends Application{
         	updateCounter();
         }
     }
-
+    /*
+     * Check if either player run out of cards and then transition 
+     * to win/lose scene
+     * @param stage primary JavaFx stage used to set the end scene. 
+     */
     private static void checkGameOver(Stage stage){
         int p1 = hand1.getSize();
         int p2 = hand2.getSize();    
@@ -436,7 +453,12 @@ public class WarGUIDriver extends Application{
             endScenePlayerWin(stage);
         }
     }
-
+    
+    /*
+     * Resolves a tied scenario by drawing three cards from each 
+     * player where two are displayed face down and one face up. 
+     * @param stage the primary JavaFx stage 
+     */
     private static void battle(Stage stage) {
         if (hand1.getSize() <= 3) {
             checkGameOver(stage);
@@ -508,7 +530,13 @@ public class WarGUIDriver extends Application{
         	tempHand.removeCard(0);
         }
     }
-
+    /*
+     * Create a card node that shows the front image of the card.
+     * @param card the card to display
+     * @param width the width of the card
+     * @param height the height of the card
+     * @return a Pane with the card front image
+     */
     private static Pane createFrontCardNode(Card card, double width, double height){
 
         Pane container = new Pane();
@@ -537,14 +565,13 @@ public class WarGUIDriver extends Application{
 
     }  
     
-    /**
-     * 
-     * @param card
-     * @param width
-     * @param height
+   /**
+     * create a card node showing the back image of the card.
+     * @param card the card to display
+     * @param width the width of the card
+     * @param height the height of the card
      * @return Pane with back of card image
      */
-    
     private static Pane createBackCardNode(Card card, double width, double height){
 
         Pane container = new Pane();
@@ -572,12 +599,19 @@ public class WarGUIDriver extends Application{
         return container;
 
     } 
-
+    /*
+     *  Update the UI counters for player and opponent card count. 
+     */
     public static void updateCounter(){
         playerDeckSize.setText("Your # of Cards: " + Integer.toString(hand1.getSize()));
         opponentDeckSize.setText("Opponent # of Cards: " + Integer.toString(hand2.getSize()));
     }
-
+    
+    /*
+     *  Displays the end-of-game "win" scene.
+     * @param stage the primary JavaFx stage where the scene will be 
+     * shown.
+     */
      public static void endScenePlayerWin (Stage stage) {
        Label winMessage = new Label ("You Win! You have won the war!");
         Button btnMainMenu = new Button ("Return to Main Menu");
@@ -597,6 +631,11 @@ public class WarGUIDriver extends Application{
         stage.show();
     }
     
+     /*
+      *  Display end of game "lose" scene.
+      * @param stage the primary JavaFx stage where the scene will be
+      * shown. 
+      */
     public static void endScenePlayerLose (Stage stage) {
         Label loseMessage = new Label ("You Lost! Your opponent has won the war!");
         Button btnMainMenu = new Button ("Return to Main Menu");
@@ -615,7 +654,9 @@ public class WarGUIDriver extends Application{
         stage.setScene(scene);
         stage.show();
     }
-    
+    /*
+     * Reset the game state for a new round 
+     */
     private static void resetGame() {
     	 flipCard = false;
     	 nextRound = true;
@@ -629,7 +670,11 @@ public class WarGUIDriver extends Application{
          deck.deal(26, hand2);
          updateCounter();
     }
-
+    
+    /*
+     *  launches the JavaFx application 
+     * @param args command-line arguments.
+     */
     public static void main(String [] args) {
         launch(args);
     } 
