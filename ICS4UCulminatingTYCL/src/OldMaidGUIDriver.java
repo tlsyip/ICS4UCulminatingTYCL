@@ -218,8 +218,9 @@ public class OldMaidGUIDriver extends Application{
 
     /**
      * The game scene where the user plays the game
+     * Controls the draw opponent, remove doubles, end turn and quit game buttons
      * @param Stage stage - to display graphics
-     * @return Scene for user to interact with
+     * @return Scene containing main game play
      */
     public static Scene gameScene (Stage stage){
     	// create fonts
@@ -270,7 +271,7 @@ public class OldMaidGUIDriver extends Application{
             System.out.println("Drawed from opponent.");
          } 
          else {
-            	// prints an error message if the user has already drawn from their opponent
+            	// displays an error message if the user has already drawn from their opponent
                 errorMessage.setText("You already picked from your opponent.");
          }
         });
@@ -299,7 +300,7 @@ public class OldMaidGUIDriver extends Application{
                 renderHand(hand2, oppPane);
                 System.out.println("Removed doubles.");
             }
-            // prints an error message if the user has already removed the doubles
+            // displays an error message if the user has already removed the doubles
             else {
                 errorMessage.setText("All your doubles are removed.");
             }
@@ -333,11 +334,13 @@ public class OldMaidGUIDriver extends Application{
           	    "-fx-border-width: 2;" +
           	    "-fx-text-fill:steelblue;"
          );
+        
         // button to quit the game
         // sets the size of the button
         btnQuitGame.setPrefSize(155, 20); 
         // sets the font of the button
         btnQuitGame.setFont(smallFont); 
+        // returns to the main menu
         btnQuitGame.setOnAction(e -> {
         	System.out.println("Returning to Main Menu...");
         	stage.setScene(MainGUIDriver.startScene(stage));
@@ -372,6 +375,7 @@ public class OldMaidGUIDriver extends Application{
     }
     
     /**
+     * Create the image of the front of the card
      * @param Card card - the card created
      * @param double width - width of the card
      * @param double height - height of the card
@@ -389,7 +393,7 @@ public class OldMaidGUIDriver extends Application{
     }  
     
     /**
-     * 
+     * Create the image of the back of the card
      * @param Card card - the created
      * @param double width - width of the card
      * @param double height - height of the card
@@ -406,88 +410,10 @@ public class OldMaidGUIDriver extends Application{
     }  
     
     /**
-     * The end scene telling the user that they won
-     * @param Stage stage - to display the graphics
-     */
-    public static void endScenePlayerWin (Stage stage) {
-        Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
-        Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
-        
-        // Button to return to the Main Menu
-        Button btnMainMenu = new Button ("Return to Main Menu");
-        
-        // create a layout object
-        VBox layout = new VBox(10);
-        layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane, btnMainMenu);
-       
-        Scene scene = new Scene(layout, 500, 500);
-        
-        btnMainMenu.setPrefSize(200, 20);
-        btnMainMenu.setOnAction(e ->  {
-        	stage.setScene(MainGUIDriver.startScene(stage));
-        	oldMaidCard.removeCard(0);
-        });
-        
-        // Create a pane to display the Old Maid Card
-        finalPane = new Pane();
-        
-        // renders the old maid card to show what it was
-        renderHand(oldMaidCard, finalPane);
-        
-        // creates green background
-        layout.setStyle("-fx-background-color:palegreen");
-        scene.setFill(Color.PALEGREEN);
-        
-        // displays the graphics
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    /**
-     * The end scene telling the user that they lost
-     * @param Stage stage - to display graphics
-     */
-    public static void endScenePlayerLose (Stage stage) {
-        Label loseMessage = new Label ("Your opponent got rid of all their cards. You are the Old Maid!");
-        Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
-        
-        // Button to return to the Main Menu
-        Button btnMainMenu = new Button ("Return to Main Menu");
-        
-        // create a layout object
-        VBox layout = new VBox(10);
-        layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane, btnMainMenu);    
-        
-        Scene scene = new Scene(layout, 500, 500);
-        
-        btnMainMenu.setPrefSize(200, 20);
-        btnMainMenu.setOnAction(e ->  {
-        	stage.setScene(MainGUIDriver.startScene(stage));
-        	oldMaidCard.removeCard(0);
-        });
-        
-        // create a pane to display the Old Maid Card
-        finalPane = new Pane();
-        
-        // renders the old maid card to show what it was
-        renderHand(oldMaidCard, finalPane); 
-        
-        // creates red background
-        layout.setStyle("-fx-background-color:lightcoral");
-        scene.setFill(Color.LIGHTCORAL);
-        
-        // displays the graphics
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    /**
-     * 
-     * @param Hand hand - hand that is being rendered
-     * @param Pane pane - pane that the hand will be displayed on
-     */
+    * Renders a hand onto target using card back images
+    * @param Hand hand - to render
+    * @param Pane pane - to draw into
+    */
     private static void renderHand(Hand hand, Pane pane){
     	// clears the pane
         pane.getChildren().clear();
@@ -532,6 +458,86 @@ public class OldMaidGUIDriver extends Application{
             pane.getChildren().add(cardNode);
         }
     }
+    
+    /**
+     * The end scene telling the user that they won
+     * @param Stage stage - to display the graphics
+     */
+    public static void endScenePlayerWin (Stage stage) {
+        Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
+        Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
+        
+        Button btnMainMenu = new Button ("Return to Main Menu");
+        
+        // create a layout object
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(winMessage, lblOldMaidCard, finalPane, btnMainMenu);
+       
+        Scene scene = new Scene(layout, 500, 500);
+        
+        // button to return to the main menu
+        btnMainMenu.setPrefSize(200, 20);
+        btnMainMenu.setOnAction(e ->  {
+        	stage.setScene(MainGUIDriver.startScene(stage));
+        	oldMaidCard.removeCard(0);
+        });
+        
+        // Create a pane to display the Old Maid Card
+        finalPane = new Pane();
+        
+        // renders the old maid card to show what it was
+        renderHand(oldMaidCard, finalPane);
+        
+        // creates green background
+        layout.setStyle("-fx-background-color:palegreen");
+        scene.setFill(Color.PALEGREEN);
+        
+        // displays the graphics
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    /**
+     * The end scene telling the user that they lost
+     * @param Stage stage - to display graphics
+     */
+    public static void endScenePlayerLose (Stage stage) {
+        Label loseMessage = new Label ("Your opponent got rid of all their cards. You are the Old Maid!");
+        Label lblOldMaidCard = new Label ("The Old Maid Card was: ");
+        
+        Button btnMainMenu = new Button ("Return to Main Menu");
+        
+        // create a layout object
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane, btnMainMenu);    
+        
+        Scene scene = new Scene(layout, 500, 500);
+        
+        // button to return to the main menu
+        btnMainMenu.setPrefSize(200, 20);
+        btnMainMenu.setOnAction(e ->  {
+        	stage.setScene(MainGUIDriver.startScene(stage));
+        	oldMaidCard.removeCard(0);
+        });
+        
+        // create a pane to display the Old Maid Card
+        finalPane = new Pane();
+        
+        // renders the old maid card to show what it was
+        renderHand(oldMaidCard, finalPane); 
+        
+        // creates red background
+        layout.setStyle("-fx-background-color:lightcoral");
+        scene.setFill(Color.LIGHTCORAL);
+        
+        // displays the graphics
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    
     
     /**
      * Automates the opponent's turn
