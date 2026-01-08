@@ -459,21 +459,12 @@ public class WarGUIDriver extends Application{
       * @param Stage stage - to display the graphics
       */
      public static void endScenePlayerWin (Stage stage) {
+    	 // create font
     	 Font smallFont = Font.font("Times New Roman", 16);
     	 
-         Label winMessage = new Label ("You got rid of all your cards! Your opponent is the Old Maid!");
+         Label winMessage = new Label ("You Win! You have all the cards.");
          
          Button btnMainMenu = new Button ("Return to Main Menu");
-         winMessage.setFont(smallFont);
-         
-         btnMainMenu.setFont(smallFont);
-         
-         btnMainMenu.setStyle(
-     	 		"-fx-background-color: lavenderblush; " +
-      	 	    "-fx-border-color: black; " +
-      	 	    "-fx-border-width: 2;" +
-      	 	    "-fx-text-fill:black;"
-             );
          
          
          // create a layout object
@@ -485,9 +476,19 @@ public class WarGUIDriver extends Application{
          
          // button to return to the main menu
          btnMainMenu.setPrefSize(200, 20);
+         btnMainMenu.setFont(smallFont);
          btnMainMenu.setOnAction(e ->  {
          	stage.setScene(MainGUIDriver.startScene(stage));
          });
+         btnMainMenu.setStyle(
+     	 		"-fx-background-color: lavenderblush; " +
+      	 	    "-fx-border-color: black; " +
+      	 	    "-fx-border-width: 2;" +
+      	 	    "-fx-text-fill:black;"
+          );
+         
+         // set font of the label
+         winMessage.setFont(smallFont);
          
          // creates green background
          layout.setStyle("-fx-background-color:palegreen");
@@ -503,22 +504,35 @@ public class WarGUIDriver extends Application{
       * @param Stage stage - to display graphics
       */
      public static void endScenePlayerLose (Stage stage) {
-         Label loseMessage = new Label ("Your opponent got rid of all their cards. You are the Old Maid!");
+    	 //create font
+    	 Font smallFont = Font.font("Times New Roman", 16);
+    	 
+         Label loseMessage = new Label ("You Lost! Your opponent has all the cards.");
          
          Button btnMainMenu = new Button ("Return to Main Menu");
          
          // create a layout object
          VBox layout = new VBox(10);
          layout.setAlignment(Pos.CENTER);
-         layout.getChildren().addAll(loseMessage, btnMainMenu);    
-         
+         layout.getChildren().addAll(loseMessage, btnMainMenu);
+        
          Scene scene = new Scene(layout, 500, 500);
          
          // button to return to the main menu
          btnMainMenu.setPrefSize(200, 20);
+         btnMainMenu.setFont(smallFont);
          btnMainMenu.setOnAction(e ->  {
          	stage.setScene(MainGUIDriver.startScene(stage));
          });
+         btnMainMenu.setStyle(
+     	 		"-fx-background-color: lavenderblush; " +
+      	 	    "-fx-border-color: black; " +
+      	 	    "-fx-border-width: 2;" +
+      	 	    "-fx-text-fill:black;"
+          );
+         
+         // set font of the label
+         loseMessage.setFont(smallFont);
          
          // creates red background
          layout.setStyle("-fx-background-color:lightcoral");
@@ -745,8 +759,8 @@ public class WarGUIDriver extends Application{
     	 deck.shuffleDeck();
          
     	 // deals the cards evenly to both hands
-         deck.deal(26, hand1);
-         deck.deal(26, hand2);
+         deck.deal(1, hand1);
+         deck.deal(51, hand2);
          
          // updates the counter
          updateCounter();
