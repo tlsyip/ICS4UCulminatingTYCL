@@ -521,6 +521,10 @@ public class WarGUIDriver extends Application{
       * @param Stage stage - to display the graphics
       */
       public static void flipCard(Stage stage){
+        // gets the current card from the top of the hand
+        playerCurrCard = hand1.getCard(0);
+        opponentCurrCard = hand2.getCard(0);
+    	  
     	// clears the pane
         handPane.getChildren().clear();
         oppPane.getChildren().clear();
@@ -532,10 +536,6 @@ public class WarGUIDriver extends Application{
         double startY = 15;
         double oppStartX = 210;
         double oppStartY = 10;
-        
-        // gets the current card from the top of the hand
-        playerCurrCard = hand1.getCard(0);
-        opponentCurrCard = hand2.getCard(0);
 
         cardNode.setLayoutX(startX);
         cardNode.setLayoutY(startY);
