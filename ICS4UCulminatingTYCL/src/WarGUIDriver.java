@@ -759,8 +759,8 @@ public class WarGUIDriver extends Application{
     	 deck.shuffleDeck();
          
     	 // deals the cards evenly to both hands
-         deck.deal(1, hand1);
-         deck.deal(51, hand2);
+         deck.deal(26, hand1);
+         deck.deal(26, hand2);
          
          // updates the counter
          updateCounter();
