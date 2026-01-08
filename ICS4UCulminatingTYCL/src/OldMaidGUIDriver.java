@@ -93,7 +93,7 @@ public class OldMaidGUIDriver extends Application{
         title.setFont(bigFont);
 
  		// creates blue background
- 		layout.setStyle("-fx-background-color:lightsteelblue");
+ 		layout.setStyle("-fx-background-color:lightsteelblue;");
  		scene.setFill(Color.LIGHTSTEELBLUE);
 
         stage.setScene(scene);
@@ -164,7 +164,7 @@ public class OldMaidGUIDriver extends Application{
 	    title.setFont(bigFont);
 
 		// creates blue background
-		layout.setStyle("-fx-background-color:lightsteelblue");
+		layout.setStyle("-fx-background-color:lightsteelblue;");
 		scene.setFill(Color.LIGHTSTEELBLUE);		
 		
 		return scene;
@@ -210,7 +210,7 @@ public class OldMaidGUIDriver extends Application{
         instructions.setFont(smallFont);
         
         //creates blue background
-        layout.setStyle("-fx-background-color:lightsteelblue");
+        layout.setStyle("-fx-background-color:lightsteelblue;");
         scene.setFill(Color.LIGHTSTEELBLUE);
 
         return scene;
@@ -319,6 +319,7 @@ public class OldMaidGUIDriver extends Application{
         // sets the font of the button
         btnEndTurn.setFont(smallFont);  
         btnEndTurn.setOnAction(e -> {
+        	checkGameOver(stage);
         	System.out.println("Turn Ended");
             errorMessage.setText("");
             errorMessage.setText("Opponent Turn...");
@@ -360,7 +361,7 @@ public class OldMaidGUIDriver extends Application{
         errorMessage.setTextFill(Color.RED);
         
         // creates blue background
-        layout.setStyle("-fx-background-color:lightsteelblue");
+        layout.setStyle("-fx-background-color:lightsteelblue;");
         scene.setFill(Color.LIGHTSTEELBLUE);
 
         // creates a new game
@@ -469,6 +470,9 @@ public class OldMaidGUIDriver extends Application{
         
         Button btnMainMenu = new Button ("Return to Main Menu");
         
+        // Create a pane to display the Old Maid Card
+        finalPane = new Pane();
+        
         // create a layout object
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
@@ -483,14 +487,11 @@ public class OldMaidGUIDriver extends Application{
         	oldMaidCard.removeCard(0);
         });
         
-        // Create a pane to display the Old Maid Card
-        finalPane = new Pane();
-        
         // renders the old maid card to show what it was
         renderHand(oldMaidCard, finalPane);
         
         // creates green background
-        layout.setStyle("-fx-background-color:palegreen");
+        layout.setStyle("-fx-background-color:palegreen;");
         scene.setFill(Color.PALEGREEN);
         
         // displays the graphics
@@ -508,12 +509,17 @@ public class OldMaidGUIDriver extends Application{
         
         Button btnMainMenu = new Button ("Return to Main Menu");
         
+        // create a pane to display the Old Maid Card
+        finalPane = new Pane();
+        
         // create a layout object
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(loseMessage, lblOldMaidCard, finalPane, btnMainMenu);    
         
         Scene scene = new Scene(layout, 500, 500);
+        
+        
         
         // button to return to the main menu
         btnMainMenu.setPrefSize(200, 20);
@@ -522,14 +528,11 @@ public class OldMaidGUIDriver extends Application{
         	oldMaidCard.removeCard(0);
         });
         
-        // create a pane to display the Old Maid Card
-        finalPane = new Pane();
-        
         // renders the old maid card to show what it was
         renderHand(oldMaidCard, finalPane); 
         
         // creates red background
-        layout.setStyle("-fx-background-color:lightcoral");
+        layout.setStyle("-fx-background-color:lightcoral;");
         scene.setFill(Color.LIGHTCORAL);
         
         // displays the graphics
