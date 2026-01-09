@@ -765,7 +765,10 @@ public class WarGUIDriver extends Application{
          // updates the counter
          updateCounter();
      }
-    
+     /*
+      * Launches the JavaFx application.
+      * @param args command-line arguments.
+      */
     public static void main(String [] args) {
         launch(args);
     } 

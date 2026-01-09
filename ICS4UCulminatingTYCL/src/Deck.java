@@ -60,10 +60,13 @@ public class Deck {
                 else {
                     rank = Integer.parseInt(name);
                 }
-				
+				//load images onto the cards from the image source
 				Image image3 = new Image(getClass().getResourceAsStream(img));
 				Image backOfCard = new Image(getClass().getResourceAsStream(backImg));
+				
+				//Create a new card object using the loaded images
 				Card c = new Card(suit, name, rank, image3, backOfCard);
+				//add card to the deck
 				deck.add(c);
 			}
 		}
