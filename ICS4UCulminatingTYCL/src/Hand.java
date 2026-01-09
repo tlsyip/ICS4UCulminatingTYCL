@@ -1,109 +1,116 @@
 import java.util.ArrayList;
 import java.util.Collections;
+
 /**
-* Represents a player's hand of playing cards
-* Provides options for adding, displaying and shuffling cards; removing duplicate 
-* cards; getting the size of a player's hand; and drawing from an opponent
-*/
+ * Represents a player's hand of playing cards Provides options for adding,
+ * displaying and shuffling cards; removing duplicate cards; getting the size of
+ * a player's hand; and drawing from an opponent
+ */
 public class Hand {
-    // The list of cards in a player's hand
-    private ArrayList<Card> cards;
-    private String name;
+	// The list of cards in a player's hand
+	private ArrayList<Card> cards;
+	private String name;
 
-    /**
-    * Construct an empty hand
-    */
-    Hand(String n) {
-        cards = new ArrayList<Card>();
-        name = n;
-    }
+	/**
+	 * Construct an empty hand
+	 */
+	Hand(String n) {
+		cards = new ArrayList<Card>();
+		name = n;
+	}
 
-    /**
-    * Adds a card to the hand
-    * @param Card c - the card being added
-    */
-    public void addCard(Card c){
-        cards.add(c);
-    }
+	/**
+	 * Adds a card to the hand
+	 * 
+	 * @param Card c - the card being added
+	 */
+	public void addCard(Card c) {
+		cards.add(c);
+	}
 
-    /** 
-    * Displays the current hand
-    */
-    public void displayHand() {
-        System.out.println(name + cards);
-    }
+	/**
+	 * Displays the current hand
+	 */
+	public void displayHand() {
+		System.out.println(name + cards);
+	}
 
-    /** 
-    * Randomly shuffles the current hand
-    */
-    public void shuffleHand() {
-        Collections.shuffle(cards);
-    }
-    
-    /**
-     * Returns the name of the hand
-     * @return String name of the Hand
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Randomly shuffles the current hand
+	 */
+	public void shuffleHand() {
+		Collections.shuffle(cards);
+	}
 
-    /** 
-    * Returns the number of cards in the current hand
-    * @return int - the size of the hand
-    */
-    public int getSize() {
-        return cards.size();
-    }
+	/**
+	 * Returns the name of the hand
+	 * 
+	 * @return String name of the Hand
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /** 
-    * Removes any pairs of matching cards in the current hand with the same value
-    */
-    public void removeDoubles() {
-        for (int i = 0; i < cards.size(); i++) {
-            String target = cards.get(i).getValue();            
-                for (int j = i+1; j < cards.size(); j++) {
-                    if (cards.get(j).getValue().equals(target)) {
-                        cards.remove(j);
-                        cards.remove(i);
-                        i--;
-                        j=cards.size();
-                    }
-                }
-            
-        }
-    }
+	/**
+	 * Returns the number of cards in the current hand
+	 * 
+	 * @return int - the size of the hand
+	 */
+	public int getSize() {
+		return cards.size();
+	}
 
-    /**
-    * Helper method to remove a card at a given index
-    * @param int index - index of the card being removed
-    * @return Card that is removed
-    */
-    public Card removeCard(int index) {
-        return cards.remove(index);
-    }
-    
-    /**
-     * Gets the card at a given index
-     * @param int - index
-     * @return Card that was gotten
-     */
-    public Card getCard(int index){
-        return cards.get(index);
-    }
+	/**
+	 * Removes any pairs of matching cards in the current hand with the same value
+	 */
+	public void removeDoubles() {
+		for (int i = 0; i < cards.size(); i++) {
+			String target = cards.get(i).getValue();
+			for (int j = i + 1; j < cards.size(); j++) {
+				if (cards.get(j).getValue().equals(target)) {
+					cards.remove(j);
+					cards.remove(i);
+					i--;
+					j = cards.size();
+				}
+			}
 
-    /**
-    * Draws a card from another hand and adds it to this one
-    * @param Hand h - the opponent's hand to draw from
-    */
-    public void drawOpponent(Hand h) {
-        if(h.getSize()==0){
-            System.out.println("No cards to draw from this hand.");
-        }
-        // chooses a random card to remove
-        int randomCard = (int)(Math.random()*h.getSize());
-        Card stolen = h.removeCard(randomCard);
-        addCard(stolen);
-    }
-    
+		}
+	}
+
+	/**
+	 * Helper method to remove a card at a given index
+	 * 
+	 * @param int index - index of the card being removed
+	 * @return Card that is removed
+	 */
+	public Card removeCard(int index) {
+		return cards.remove(index);
+	}
+
+	/**
+	 * Gets the card at a given index
+	 * 
+	 * @param int - index
+	 * @return Card that was gotten
+	 */
+	public Card getCard(int index) {
+		return cards.get(index);
+	}
+
+	/**
+	 * Draws a card from another hand and adds it to this one
+	 * 
+	 * @param Hand h - the opponent's hand to draw from
+	 */
+	public void drawOpponent(Hand h) {
+		if (h.getSize() == 0) {
+			System.out.println("No cards to draw from this hand.");
+		}
+		// chooses a random card to remove
+		int randomCard = (int) (Math.random() * h.getSize());
+		Card stolen = h.removeCard(randomCard);
+		addCard(stolen);
+	}
+
 }

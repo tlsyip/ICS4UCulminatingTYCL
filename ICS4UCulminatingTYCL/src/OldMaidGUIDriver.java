@@ -305,7 +305,7 @@ public class OldMaidGUIDriver extends Application{
                 System.out.println("Removed doubles.");
             }
             // displays an error message if the user has already removed the doubles
-            else {
+			  else {
                 errorMessage.setText("All your doubles are removed.");
             }
         });
