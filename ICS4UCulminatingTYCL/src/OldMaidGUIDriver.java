@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-/*
+/**
  * JavaFx GUIDriver for "Old Maid".
  * This class will handle display of main menu, instructions, and game play scenes.
  * It will also handle user interactions through buttons and game controls, update the cards visually, and managing scene transitions.
@@ -646,7 +646,7 @@ public class OldMaidGUIDriver extends Application{
         hand1.removeDoubles();
         hand2.removeDoubles();
     }
-    /*
+    /**
      * Launches the JavaFx application.
      * @param args command-line arguments.
      */

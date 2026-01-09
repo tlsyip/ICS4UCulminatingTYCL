@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-/*
+/**
  * JavaFx GUIDriver for game "War".
  * This class will handle display of main menu, instructions, and game play scenes.
  * It will also handle UI state such as flip card and next round.
@@ -38,7 +38,7 @@ public class WarGUIDriver extends Application{
     private static Label playerDeckSize;
     private static Label opponentDeckSize;
     
-    /*
+    /**
      * Starting screen of the game
      * @param Stage stage - to display graphics
      * @throws Exception ifJavaFx cannot initialize application
@@ -110,7 +110,7 @@ public class WarGUIDriver extends Application{
         stage.show();
     }
     
-    /*
+    /**
      * Recreation of the starting screen of the game
      * @param Stage stage - to display graphics
      * @throws Exception ifJavaFx cannot initialize application
@@ -181,7 +181,7 @@ public class WarGUIDriver extends Application{
         return scene;
     }
     
-    /*
+    /**
      * creates the instructions describing rules of War.
      * @param stage main JavaFx stage used for switching scenes
      * @return a Scene containing instructions and start button 
@@ -227,7 +227,7 @@ public class WarGUIDriver extends Application{
         return scene;
     }
     
-    /*
+    /**
      * Creates the game scene and make a new game state. 
      * Controls the flip, next round and quit buttons
      * @param Stage stage - to display graphics
@@ -639,7 +639,7 @@ public class WarGUIDriver extends Application{
         }
      }
     
-    /*
+    /**
      * Resolves a tied scenario by drawing three cards from each player where two are displayed face up and one face down 
      * @param Stage stage - to display graphics
      */
@@ -765,7 +765,7 @@ public class WarGUIDriver extends Application{
          // updates the counter
          updateCounter();
      }
-     /*
+     /**
       * Launches the JavaFx application.
       * @param args command-line arguments.
       */

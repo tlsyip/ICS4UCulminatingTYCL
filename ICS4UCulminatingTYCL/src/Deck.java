@@ -106,7 +106,7 @@ public class Deck {
     public void shuffleDeck () {
         Collections.shuffle(deck);
     }
-    /*
+    /**
      * creates and return a fresh deck
      * This method allocates a new deck and return it back.
      * @return a newly created deck
